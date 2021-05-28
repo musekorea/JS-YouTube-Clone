@@ -1,12 +1,16 @@
 import express from 'express';
+import morgan from 'morgan';
+import globalRouter from './routers/globalRouter';
+import userRouter from './routers/userRouters';
+import videoRouter from './routers/videoRouters';
 
 const PORT = 8080;
 const app = express();
 
-const handleHome = (req, res) => {
-  return res.send(`<h1>Hello</h1>`);
-};
-app.get('/', handleHome);
+app.use(morgan('dev'));
+app.use('/', globalRouter);
+app.use('/videos', videoRouter);
+app.use('/users', userRouter);
 
 const handleListening = () => {
   console.log(`Server is listening on Port ${PORT}👵`);
