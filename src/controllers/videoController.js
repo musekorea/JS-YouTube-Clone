@@ -7,7 +7,7 @@ export const searchController = (req, res) => {
 };
 
 export const videoWatchController = (req, res) => {
-  res.send('Watch Video');
+  res.send(`Watch Video Number: ${req.params.id}`);
 };
 
 export const videoEditController = (req, res) => {
