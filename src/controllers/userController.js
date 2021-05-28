@@ -6,6 +6,14 @@ export const loginController = (req, res) => {
   res.send('Login');
 };
 
+export const logoutController = (req, res) => {
+  res.send('Logout');
+};
+
+export const userProfileController = (req, res) => {
+  res.send('User Profile');
+};
+
 export const userEditController = (req, res) => {
   res.send('Edit User');
 };
