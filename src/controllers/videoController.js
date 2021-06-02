@@ -60,8 +60,21 @@ export const videoPostEditController = (req, res) => {
   res.redirect('edit');
 };
 
-export const videoUploadController = (req, res) => {
-  res.send('Upload Video');
+export const videoGetUploadController = (req, res) => {
+  res.render('uploadVideo');
+};
+export const videoPostUploadController = (req, res) => {
+  console.log(req.body);
+  const newVideo = {
+    title: req.body.title,
+    rating: 0,
+    comments: 0,
+    createdAt: 'just now',
+    views: 1,
+    id: videoDB.length + 1,
+  };
+  videoDB.push(newVideo);
+  res.redirect('/');
 };
 
 export const videoDeleteController = (req, res) => {

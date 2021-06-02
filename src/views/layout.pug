@@ -7,20 +7,8 @@ html(lang="en")
     title #{pageTitle} | Wetube
     link(rel="stylesheet" href="https://unpkg.com/mvp.css")
   body 
-    //nav 
-      ul  
-        if fakeUser.isLogined
-         li 
-           a(href="/login") Logout
-        else 
-          li 
-            a(href="/login") Login
-    //header  
-      if fakeUser.isLogined
-        small Hello #{fakeUser.userName}
-      else 
-        small You're not loginned     
-            
+    header
+      a(href="/videos/upload") Upload Video
     main
     block content 
     include partials/footer.pug
