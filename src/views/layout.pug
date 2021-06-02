@@ -1,0 +1,26 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title #{pageTitle} | Wetube
+    link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+  body 
+    //nav 
+      ul  
+        if fakeUser.isLogined
+         li 
+           a(href="/login") Logout
+        else 
+          li 
+            a(href="/login") Login
+    //header  
+      if fakeUser.isLogined
+        small Hello #{fakeUser.userName}
+      else 
+        small You're not loginned     
+            
+    main
+    block content 
+    include partials/footer.pug

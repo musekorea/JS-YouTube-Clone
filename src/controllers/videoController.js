@@ -1,5 +1,37 @@
+const fakeUser = {
+  userName: 'moya',
+  isLogined: true,
+};
+let videoDB = [
+  {
+    title: '1st Video',
+    rating: 5,
+    comments: 2,
+    createdAt: '2 minutes ago',
+    views: 1,
+    id: 1,
+  },
+  {
+    title: '2nd Video',
+    rating: 5,
+    comments: 2,
+    createdAt: '2 minutes ago',
+    views: 59,
+    id: 2,
+  },
+  {
+    title: '3rd Video',
+    rating: 5,
+    comments: 2,
+    createdAt: '2 minutes ago',
+    views: 59,
+    id: 3,
+  },
+];
+
 export const homeController = (req, res) => {
-  res.send('Home Page');
+  const pageTitle = req.originalUrl;
+  res.render('home.pug', { pageTitle, fakeUser, videoDB });
 };
 
 export const searchController = (req, res) => {
@@ -7,11 +39,25 @@ export const searchController = (req, res) => {
 };
 
 export const videoWatchController = (req, res) => {
-  res.send(`Watch Video Number: ${req.params.id}`);
+  const videoID = req.params.id;
+  const video = videoDB[videoID - 1];
+  const pageTitle = `Watching ${video.title}`;
+  res.render('watch', { pageTitle, fakeUser, video });
 };
 
-export const videoEditController = (req, res) => {
-  res.send('Edit Video');
+export const videoGetEditController = (req, res) => {
+  const videoID = req.params.id;
+  const video = videoDB[videoID - 1];
+  const pageTitle = `Edit ${video.title}`;
+  res.render('editVideo', { pageTitle, fakeUser, video });
+};
+
+export const videoPostEditController = (req, res) => {
+  const videoID = req.params.id;
+  const video = videoDB[videoID - 1];
+  console.log(req.body);
+  video.title = req.body.title;
+  res.redirect('edit');
 };
 
 export const videoUploadController = (req, res) => {
