@@ -19,6 +19,7 @@
   "homepage": "https://github.com/musekorea/backend-NewtTube#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mongoose": "^5.12.12",
     "morgan": "^1.10.0",
     "pug": "^3.0.2"
   },
