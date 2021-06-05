@@ -1,5 +1,3 @@
-import './db.js';
-import Video from './models/Video.js';
 import express from 'express';
 import morgan from 'morgan';
 import globalRouter from './routers/globalRouter';
@@ -17,9 +15,3 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', globalRouter);
 app.use('/videos', videoRouter);
 app.use('/users', userRouter);
-
-const handleListening = () => {
-  console.log(`Server is listening on Port ${PORT}👵`);
-};
-
-app.listen(PORT, handleListening);
