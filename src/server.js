@@ -4,7 +4,6 @@ import globalRouter from './routers/globalRouter';
 import userRouter from './routers/userRouters';
 import videoRouter from './routers/videoRouters';
 
-const PORT = 8080;
 const app = express();
 
 app.use(morgan('dev'));
@@ -15,3 +14,5 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', globalRouter);
 app.use('/videos', videoRouter);
 app.use('/users', userRouter);
+
+export default app;

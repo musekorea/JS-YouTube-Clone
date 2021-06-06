@@ -1,9 +1,15 @@
 import Video from '../models/Video.js';
 
+const handleSearch = (error, videos) => {
+  console.log('error = ', error);
+  console.log('videos = ', videos);
+};
+
 export const homeController = (req, res) => {
   const pageTitle = req.originalUrl;
-  Video.find({}, (error, videos) => {});
-  res.render('home.pug', { pageTitle });
+  Video.find({}, handleSearch);
+  console.log('test hello');
+  res.render('home.pug', { pageTitle, videoDB: [] });
 };
 
 export const searchController = (req, res) => {
