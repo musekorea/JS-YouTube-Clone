@@ -1,15 +1,13 @@
 import Video from '../models/Video.js';
 
-const handleSearch = (error, videos) => {
-  console.log('error = ', error);
-  console.log('videos = ', videos);
-};
-
-export const homeController = (req, res) => {
+export const homeController = async (req, res) => {
   const pageTitle = req.originalUrl;
-  Video.find({}, handleSearch);
-  console.log('test hello');
-  res.render('home.pug', { pageTitle, videoDB: [] });
+  try {
+    const videoDB = await Video.find();
+    res.render('home.pug', { pageTitle, videoDB });
+  } catch (error) {
+    res.render('serverError', { error });
+  }
 };
 
 export const searchController = (req, res) => {
@@ -35,7 +33,18 @@ export const videoPostEditController = (req, res) => {
 export const videoGetUploadController = (req, res) => {
   res.render('uploadVideo');
 };
-export const videoPostUploadController = (req, res) => {
+export const videoPostUploadController = async (req, res) => {
+  const { title, description, hashTags } = req.body;
+  await Video.create({
+    title,
+    description,
+    createdAt: Date.now(),
+    hashTags: hashTags.split(',').map((word) => `#${word}`),
+    meta: {
+      views: 0,
+      rating: 0,
+    },
+  });
   res.redirect('/');
 };
 

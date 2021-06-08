@@ -4,7 +4,7 @@ const videoSchema = new mongoose.Schema({
   title: String,
   description: String,
   createdAt: Date,
-  hastTag: [{ type: String }],
+  hashTags: [{ type: String }],
   meta: {
     views: Number,
     rating: Number,

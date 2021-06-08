@@ -2,5 +2,7 @@ extends layout.pug
 
 block content 
   form(method="post" action="/videos/upload")
-    input(type="text" name="title" placeholder="Please Insert Title " required)
+    input(type="text" name="title" placeholder="Please Insert Title" required)
+    input(type="text" name="description" placeholder="Description" required)
+    input(type="text" name="hashTags" placeholder="Hashtags, separated by comma!" required)
     input(type="submit" value="Upload Video")
