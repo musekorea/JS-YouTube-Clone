@@ -35,17 +35,17 @@ export const videoGetUploadController = (req, res) => {
 };
 export const videoPostUploadController = async (req, res) => {
   const { title, description, hashTags } = req.body;
-  await Video.create({
-    title,
-    description,
-    createdAt: Date.now(),
-    hashTags: hashTags.split(',').map((word) => `#${word}`),
-    meta: {
-      views: 0,
-      rating: 0,
-    },
-  });
-  res.redirect('/');
+  try {
+    await Video.create({
+      title,
+      description,
+      hashTags: hashTags.split(',').map((word) => `#${word}`),
+    });
+    res.redirect('/');
+  } catch (error) {
+    const errorMessage = error._message;
+    res.render('uploadVideo', { errorMessage });
+  }
 };
 
 export const videoDeleteController = (req, res) => {
