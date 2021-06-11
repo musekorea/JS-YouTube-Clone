@@ -1,6 +1,8 @@
 extends layout.pug 
 
 block content 
-  h1 Watching #{video.title}
-  h4 #{video.views} #{video.views===1? "view":"views"}
-  a(href=`${video.id}/edit`) Edit Video &rarr;
+  h1=videoDB.title
+  div
+    p=videoDB.description
+    small=videoDB.createdAt
+  a(href=`${videoDB.id}/edit`) Edit Video &rarr;

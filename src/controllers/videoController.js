@@ -14,9 +14,13 @@ export const searchController = (req, res) => {
   res.send('Search Videos');
 };
 
-export const videoWatchController = (req, res) => {
+export const videoWatchController = async (req, res) => {
   const pageTitle = `Watching `;
-  res.render('watch', { pageTitle });
+  const videoID = req.params;
+  console.log(videoID);
+  const videoDB = await Video.findById(videoID.id).exec();
+  console.log(videoDB);
+  res.render('watch', { pageTitle, videoDB });
 };
 
 export const videoGetEditController = (req, res) => {

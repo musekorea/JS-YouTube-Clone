@@ -10,9 +10,9 @@ import {
 
 const videoRouter = express.Router();
 
-videoRouter.get('/:id(\\d+)', videoWatchController);
+videoRouter.get('/:id([0-9a-f]{24})', videoWatchController);
 videoRouter
-  .route('/:id/edit')
+  .route('/:id([0-9a-f]{24})/edit')
   .get(videoGetEditController)
   .post(videoPostEditController);
 //videoRouter.get('/:id/edit', videoGetEditController);
@@ -20,6 +20,6 @@ videoRouter
 videoRouter.get('/upload', videoGetUploadController);
 videoRouter.post('/upload', videoPostUploadController);
 
-videoRouter.get('/:id/delete', videoDeleteController);
+videoRouter.get('/:id([0-9a-f]{24})/delete', videoDeleteController);
 
 export default videoRouter;
