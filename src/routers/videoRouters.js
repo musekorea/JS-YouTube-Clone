@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  videoWatchController,
+  videoDetailController,
   videoGetEditController,
   videoPostEditController,
   videoGetUploadController,
@@ -10,7 +10,7 @@ import {
 
 const videoRouter = express.Router();
 
-videoRouter.get('/:id([0-9a-f]{24})', videoWatchController);
+videoRouter.get('/:id([0-9a-f]{24})', videoDetailController);
 videoRouter
   .route('/:id([0-9a-f]{24})/edit')
   .get(videoGetEditController)

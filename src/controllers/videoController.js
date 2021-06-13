@@ -1,7 +1,7 @@
 import Video from '../models/Video.js';
 
 export const homeController = async (req, res) => {
-  const pageTitle = req.originalUrl;
+  const pageTitle = `Welcome Home`;
   try {
     const videoDB = await Video.find();
     res.render('home.pug', { pageTitle, videoDB });
@@ -14,13 +14,17 @@ export const searchController = (req, res) => {
   res.send('Search Videos');
 };
 
-export const videoWatchController = async (req, res) => {
+export const videoDetailController = async (req, res) => {
   const pageTitle = `Watching `;
   const videoID = req.params;
   console.log(videoID);
-  const videoDB = await Video.findById(videoID.id).exec();
+  const videoDB = await Video.findById(videoID.id);
   console.log(videoDB);
-  res.render('watch', { pageTitle, videoDB });
+  if (videoDB) {
+    res.render('videoDetail', { pageTitle, videoDB });
+  } else {
+    res.render('status404', { pageTitle: `404 error! Video not found` });
+  }
 };
 
 export const videoGetEditController = (req, res) => {
@@ -35,7 +39,8 @@ export const videoPostEditController = (req, res) => {
 };
 
 export const videoGetUploadController = (req, res) => {
-  res.render('uploadVideo');
+  const pageTitle = `Upload Video`;
+  res.render('uploadVideo', { pageTitle });
 };
 export const videoPostUploadController = async (req, res) => {
   const { title, description, hashTags } = req.body;
