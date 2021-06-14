@@ -27,10 +27,19 @@ export const videoDetailController = async (req, res) => {
   }
 };
 
-export const videoGetEditController = (req, res) => {
+export const videoGetEditController = async (req, res) => {
   const videoID = req.params.id;
+  const videoDB = await Video.findById(videoID);
+  console.log(videoDB);
   const pageTitle = `Edit`;
-  res.render('editVideo', { pageTitle });
+  if (!videoDB) {
+    return res.render('status404', { pageTitle: 'Video not found!' });
+  } else {
+    return res.render('editVideo', {
+      pageTitle: `Edit: ${videoDB.title}`,
+      videoDB,
+    });
+  }
 };
 
 export const videoPostEditController = (req, res) => {
