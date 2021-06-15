@@ -50,13 +50,13 @@ export const videoPostEditController = async (req, res) => {
     return res.render('status404', { pageTitle: 'Video not found!' });
   }
   const { title, description, hashTags } = req.body;
-  videoDB.title = title;
-  videoDB.description = description;
-
-  videoDB.hashTags = hashTags
-    .split(',')
-    .map((word) => (word.startsWith('#') ? word : `#${word}`));
-  await videoDB.save();
+  await Video.findByIdAndUpdate(videoID, {
+    title,
+    description,
+    hastTags: hashTags
+      .split(',')
+      .map((word) => (word.startsWith('#') ? word : `#${word}`)),
+  });
   res.redirect('edit');
 };
 
