@@ -15,8 +15,8 @@ videoRouter
   .route('/:id([0-9a-f]{24})/edit')
   .get(videoGetEditController)
   .post(videoPostEditController);
-//videoRouter.get('/:id/edit', videoGetEditController);
-//videoRouter.post('/:id/edit', videoPostEditController);
+videoRouter.get('/:id([0-9a-f]{24})/edit', videoGetEditController);
+videoRouter.post('/:id([0-9a-f]{24})/edit', videoPostEditController);
 videoRouter.get('/upload', videoGetUploadController);
 videoRouter.post('/upload', videoPostUploadController);
 

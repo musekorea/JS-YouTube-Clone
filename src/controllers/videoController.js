@@ -42,8 +42,21 @@ export const videoGetEditController = async (req, res) => {
   }
 };
 
-export const videoPostEditController = (req, res) => {
+export const videoPostEditController = async (req, res) => {
+  console.log(req.body);
   const videoID = req.params.id;
+  const videoDB = await Video.findById(videoID);
+  if (!videoDB) {
+    return res.render('status404', { pageTitle: 'Video not found!' });
+  }
+  const { title, description, hashTags } = req.body;
+  videoDB.title = title;
+  videoDB.description = description;
+
+  videoDB.hashTags = hashTags
+    .split(',')
+    .map((word) => (word.startsWith('#') ? word : `#${word}`));
+  await videoDB.save();
   res.redirect('edit');
 };
 
@@ -57,7 +70,9 @@ export const videoPostUploadController = async (req, res) => {
     await Video.create({
       title,
       description,
-      hashTags: hashTags.split(',').map((word) => `#${word}`),
+      hashTags: hashTags
+        .split(',')
+        .map((word) => (word.startsWith('#') ? word : `#${word}`)),
     });
     res.redirect('/');
   } catch (error) {
