@@ -45,8 +45,8 @@ export const videoGetEditController = async (req, res) => {
 export const videoPostEditController = async (req, res) => {
   console.log(req.body);
   const videoID = req.params.id;
-  const videoDB = await Video.findById(videoID);
-  if (!videoDB) {
+  const videoExist = await Video.exists({ _id: videoID });
+  if (!videoExist) {
     return res.render('status404', { pageTitle: 'Video not found!' });
   }
   const { title, description, hashTags } = req.body;
