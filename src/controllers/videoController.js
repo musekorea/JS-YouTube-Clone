@@ -53,7 +53,7 @@ export const videoPostEditController = async (req, res) => {
   await Video.findByIdAndUpdate(videoID, {
     title,
     description,
-    hastTags: hashTags
+    hashTags: hashTags
       .split(',')
       .map((word) => (word.startsWith('#') ? word : `#${word}`)),
   });
