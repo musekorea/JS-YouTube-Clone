@@ -12,8 +12,10 @@ const videoSchema = new mongoose.Schema({
 });
 
 videoSchema.pre('save', async function () {
-  console.log('This is middle ware= ', this);
-  this.title = 'MIDDLE TITLE';
+  console.log('This is middleware', this);
+  this.hashTags = this.hashTags[0]
+    .split(',')
+    .map((word) => (word.startsWith('#') ? word : `#${word}`));
 });
 
 const Video = mongoose.model('Video', videoSchema);

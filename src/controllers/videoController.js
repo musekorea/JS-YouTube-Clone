@@ -70,9 +70,7 @@ export const videoPostUploadController = async (req, res) => {
     await Video.create({
       title,
       description,
-      hashTags: hashTags
-        .split(',')
-        .map((word) => (word.startsWith('#') ? word : `#${word}`)),
+      hashTags,
     });
     res.redirect('/');
   } catch (error) {
