@@ -1,4 +1,5 @@
 import Video from '../models/Video.js';
+import { formatHashTags } from '../models/Video.js';
 
 export const homeController = async (req, res) => {
   const pageTitle = `Welcome Home`;
@@ -53,9 +54,7 @@ export const videoPostEditController = async (req, res) => {
   await Video.findByIdAndUpdate(videoID, {
     title,
     description,
-    hashTags: hashTags
-      .split(',')
-      .map((word) => (word.startsWith('#') ? word : `#${word}`)),
+    hashTags: formatHashTags(hashTags),
   });
   res.redirect('edit');
 };
@@ -70,7 +69,7 @@ export const videoPostUploadController = async (req, res) => {
     await Video.create({
       title,
       description,
-      hashTags,
+      hashTags: formatHashTags(hashTags),
     });
     res.redirect('/');
   } catch (error) {
