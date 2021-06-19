@@ -10,8 +10,18 @@ export const homeController = async (req, res) => {
   }
 };
 
-export const searchController = (req, res) => {
-  res.send('Search Videos');
+export const searchController = async (req, res) => {
+  const { keyword } = req.query;
+  let videoDB = [];
+  if (keyword) {
+    console.log(keyword);
+    videoDB = await Video.find({
+      title: {
+        $regex: new RegExp(`${keyword}$`, 'i'),
+      },
+    });
+  }
+  res.render('search', { pageTitle: `Search`, videoDB });
 };
 
 export const videoDetailController = async (req, res) => {
