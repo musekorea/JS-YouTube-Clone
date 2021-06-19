@@ -77,6 +77,9 @@ export const videoPostUploadController = async (req, res) => {
   }
 };
 
-export const videoDeleteController = (req, res) => {
-  res.send('Delete Video');
+export const videoDeleteController = async (req, res) => {
+  const videoID = req.params.id;
+  console.log(videoID);
+  await Video.findByIdAndDelete(videoID);
+  res.redirect('/');
 };
