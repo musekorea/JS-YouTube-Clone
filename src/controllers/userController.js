@@ -1,9 +1,19 @@
+import User from '../models/User.js';
+
 export const joinGetController = (req, res) => {
   res.render('join', { pageTitle: 'Join' });
 };
-export const joinPostController = (req, res) => {
+export const joinPostController = async (req, res) => {
   console.log(req.body);
-  res.end();
+  const { name, username, email, password, location } = req.body;
+  await User.create({
+    name,
+    username,
+    email,
+    password,
+    location,
+  });
+  res.redirect('/login');
 };
 
 export const loginController = (req, res) => {
