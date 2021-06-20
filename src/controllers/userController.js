@@ -1,5 +1,9 @@
-export const joinController = (req, res) => {
-  res.send('Join');
+export const joinGetController = (req, res) => {
+  res.render('join', { pageTitle: 'Join' });
+};
+export const joinPostController = (req, res) => {
+  console.log(req.body);
+  res.end();
 };
 
 export const loginController = (req, res) => {
