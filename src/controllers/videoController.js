@@ -6,7 +6,7 @@ export const homeController = async (req, res) => {
     const videoDB = await Video.find().sort({ createdAt: 'descending' });
     res.render('home.pug', { pageTitle, videoDB });
   } catch (error) {
-    res.render('serverError', { error });
+    res.status(404).render('serverError', { error });
   }
 };
 
@@ -33,7 +33,9 @@ export const videoDetailController = async (req, res) => {
   if (videoDB) {
     res.render('videoDetail', { pageTitle, videoDB });
   } else {
-    res.render('status404', { pageTitle: `404 error! Video not found` });
+    res
+      .status(404)
+      .render('status404', { pageTitle: `404 error! Video not found` });
   }
 };
 
@@ -43,7 +45,9 @@ export const videoGetEditController = async (req, res) => {
   console.log(videoDB);
   const pageTitle = `Edit`;
   if (!videoDB) {
-    return res.render('status404', { pageTitle: 'Video not found!' });
+    return res
+      .status(404)
+      .render('status404', { pageTitle: 'Video not found!' });
   } else {
     return res.render('editVideo', {
       pageTitle: `Edit: ${videoDB.title}`,
@@ -57,7 +61,9 @@ export const videoPostEditController = async (req, res) => {
   const videoID = req.params.id;
   const videoExist = await Video.exists({ _id: videoID });
   if (!videoExist) {
-    return res.render('status404', { pageTitle: 'Video not found!' });
+    return res
+      .status(404)
+      .render('status404', { pageTitle: 'Video not found!' });
   }
   const { title, description, hashTags } = req.body;
   await Video.findByIdAndUpdate(videoID, {
@@ -83,7 +89,7 @@ export const videoPostUploadController = async (req, res) => {
     res.redirect('/');
   } catch (error) {
     const errorMessage = error._message;
-    res.render('uploadVideo', { errorMessage });
+    res.status(400).render('uploadVideo', { errorMessage });
   }
 };
 
