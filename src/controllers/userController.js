@@ -14,11 +14,12 @@ export const joinPostController = async (req, res) => {
   }
   const userExists = await User.exists({ $or: [{ username }, { email }] });
   if (userExists) {
-    res.status(400).render('join', {
+    return res.status(400).render('join', {
       pageTitle: 'Join',
       errorMessage: `Username(${username}) or Email(${email})is already taken`,
     });
-  } else {
+  }
+  try {
     await User.create({
       name,
       username,
@@ -28,10 +29,29 @@ export const joinPostController = async (req, res) => {
       location,
     });
     res.redirect('/login');
+  } catch (error) {
+    return res.status(400).render('join', {
+      pageTitle: 'Join',
+      errorMessage: error._message,
+    });
   }
 };
 
-export const loginController = (req, res) => {
+export const loginGetController = (req, res) => {
+  res.render('login', { pageTitle: 'Login' });
+};
+export const loginPostController = async (req, res) => {
+  console.log(req.body);
+  const { username, password } = req.body;
+  const exists = await User.exists({ username });
+  if (!exists) {
+    return res
+      .status(400)
+      .render('login', {
+        pageTitle: 'login',
+        errorMessage: 'An account with this username does not exists',
+      });
+  }
   res.send('Login');
 };
 

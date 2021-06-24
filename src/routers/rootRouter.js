@@ -6,16 +6,17 @@ import {
 import {
   joinGetController,
   joinPostController,
-  loginController,
+  loginGetController,
+  loginPostController,
 } from '../controllers/userController';
+import { get } from 'mongoose';
 
 const rootRouter = express.Router();
 
 rootRouter.get('/', homeController);
 rootRouter.get('/join', joinGetController);
 rootRouter.post('/join', joinPostController);
-
-rootRouter.get('/login', loginController);
+rootRouter.route('/login').get(loginGetController).post(loginPostController);
 rootRouter.get('/search', searchController);
 
 export default rootRouter;
