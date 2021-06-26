@@ -12,7 +12,12 @@ html(lang="en")
       a(href="/") HOME  
       a(href="/videos/upload") | Upload Video <br>
       a(href="/search") | Search Video <br>
-      a(href="/join") | Join <br>
+      if isLoggedIn===true
+        a(href="/logout") | Logout <br> 
+        a(href="#") | Edit #{loggedInUser.name} Profile
+      else 
+        a(href="/login") | Login <br>
+        a(href="/join") | Join <br>
     main
       block content 
       include partials/footer.pug

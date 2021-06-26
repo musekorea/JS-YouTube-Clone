@@ -4,6 +4,7 @@ import session from 'express-session';
 import rootRouter from './routers/rootRouter';
 import userRouter from './routers/userRouters';
 import videoRouter from './routers/videoRouters';
+import { localsMiddleware } from './middlewares';
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(morgan('dev'));
 app.set('view engine', 'pug');
 app.set('views', process.cwd() + '/src/views');
 app.use(express.urlencoded({ extended: true }));
+
 app.use(
   session({
     secret: 'moya',
@@ -18,14 +20,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-app.use((req, res, next) => {
-  console.log(`cookie=`, req.headers.cookie);
-  next();
-});
-app.use((req, res, next) => {
-  console.log(`sessionID`, req.session, req.sessionID, req.session.id);
-  next();
-});
+app.use(localsMiddleware);
 
 app.use('/', rootRouter);
 app.use('/videos', videoRouter);
