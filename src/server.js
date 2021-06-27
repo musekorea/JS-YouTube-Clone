@@ -5,6 +5,7 @@ import rootRouter from './routers/rootRouter';
 import userRouter from './routers/userRouters';
 import videoRouter from './routers/videoRouters';
 import { localsMiddleware } from './middlewares';
+import MongoStore from 'connect-mongo';
 
 const app = express();
 
@@ -18,6 +19,9 @@ app.use(
     secret: 'moya',
     resave: true,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: `mongodb://127.0.0.1:27017/newTube`,
+    }),
   })
 );
 app.use(localsMiddleware);
