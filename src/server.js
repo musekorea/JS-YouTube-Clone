@@ -13,14 +13,15 @@ app.use(morgan('dev'));
 app.set('view engine', 'pug');
 app.set('views', process.cwd() + '/src/views');
 app.use(express.urlencoded({ extended: true }));
-
+console.log(process.env.COOKIE_SECRET);
 app.use(
   session({
-    secret: 'moya',
+    secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {}, //no option
     store: MongoStore.create({
-      mongoUrl: `mongodb://127.0.0.1:27017/newTube`,
+      mongoUrl: process.env.DB_URL,
     }),
   })
 );
@@ -31,3 +32,4 @@ app.use('/videos', videoRouter);
 app.use('/users', userRouter);
 
 export default app;
+//s%3A9wExR4yDS9Bc9Y0xZlaZe4PysYDqsUC6.gt52CnfMx7M4T%2BchxNfa7y0lY0y1JDDkMQPK7RQbu0s
