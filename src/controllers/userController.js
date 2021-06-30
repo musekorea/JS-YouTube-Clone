@@ -79,3 +79,19 @@ export const userEditController = (req, res) => {
 export const userDeleteController = (req, res) => {
   res.send('Delete User');
 };
+
+export const startGithubLoginController = (req, res) => {
+  const baseURL = `https://github.com/login/oauth/authorize`;
+  const config = {
+    client_id: '6a927958e6957f67a3a3',
+    allow_signup: true,
+    scope: `read:user user:email`,
+  };
+  const params = new URLSearchParams(config).toString();
+  const finalURL = `${baseURL}?${params}`;
+  console.log(finalURL);
+  res.redirect(finalURL);
+};
+export const finishGithubLoginController = (req, res) => {
+  console.log(req);
+};
