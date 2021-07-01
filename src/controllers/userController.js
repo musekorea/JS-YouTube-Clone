@@ -92,6 +92,20 @@ export const startGithubLoginController = (req, res) => {
   console.log(finalURL);
   res.redirect(finalURL);
 };
-export const finishGithubLoginController = (req, res) => {
-  console.log(req);
+export const finishGithubLoginController = async (req, res) => {
+  const config = {
+    client_id: '6a927958e6957f67a3a3',
+    client_secret: process.env.GithubSecret,
+    code: req.query.code,
+  };
+
+  const params = new URLSearchParams(config).toString();
+  const baseURL = 'https://github.com/login/oauth/access_token';
+  const finalURL = `${baseURL}?${params}`;
+  const data = await fetch(finalURL, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+    },
+  });
 };
