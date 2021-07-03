@@ -65,10 +65,6 @@ export const loginPostController = async (req, res) => {
   res.redirect('/');
 };
 
-export const logoutController = (req, res) => {
-  res.send('Logout');
-};
-
 export const userProfileController = (req, res) => {
   res.send('User Profile');
 };
@@ -130,26 +126,27 @@ export const finishGithubLoginController = async (req, res) => {
     if (!emailObj) {
       return res.redirect('/login');
     }
-    const existUser = await User.findOne({ email: emailObj.email });
-    console.log(`existUser`, existUser);
-    if (existUser) {
-      req.session.isLoggedIn = true;
-      req.session.user = existUser;
-      return res.redirect('/');
-    } else {
-      const user = await User.create({
+    let user = await User.findOne({ email: emailObj.email });
+    if (!user) {
+      user = await User.create({
         name: userJson.name,
         username: userJson.login,
         email: emailObj.email,
         password: '',
         location: userJson.location,
         socialOnly: true,
+        avatarURL: userJson.avatar_url,
       });
-      req.session.isLoggedIn = true;
-      req.session.user = user;
-      return res.redirect('/');
     }
+    req.session.isLoggedIn = true;
+    req.session.user = user;
+    return res.redirect('/');
   } else {
     return res.redirect('/login');
   }
+};
+
+export const logoutController = (req, res) => {
+  req.session.destroy();
+  return res.redirect('/');
 };

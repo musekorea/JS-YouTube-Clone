@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   location: String,
   socialOnly: { type: Boolean, default: false },
+  avatarURL: String,
 });
 
 userSchema.pre('save', async function () {
