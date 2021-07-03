@@ -27,10 +27,10 @@ export const joinPostController = async (req, res) => {
       username,
       email,
       password,
-      password2,
       location,
     });
     res.redirect('/login');
+    //이거 그냥 홈으로 보내면 안될까?
   } catch (error) {
     return res.status(400).render('join', {
       pageTitle: 'Join',
@@ -124,12 +124,30 @@ export const finishGithubLoginController = async (req, res) => {
       },
     });
     const emailJson = await emailRequest.json();
-    const email = emailJson.find(
+    const emailObj = emailJson.find(
       (email) => email.primary === true && email.verified === true
     );
-    console.log(email);
-    if (!email) {
+    if (!emailObj) {
       return res.redirect('/login');
+    }
+    const existUser = await User.findOne({ email: emailObj.email });
+    console.log(`existUser`, existUser);
+    if (existUser) {
+      req.session.isLoggedIn = true;
+      req.session.user = existUser;
+      return res.redirect('/');
+    } else {
+      const user = await User.create({
+        name: userJson.name,
+        username: userJson.login,
+        email: emailObj.email,
+        password: '',
+        location: userJson.location,
+        socialOnly: true,
+      });
+      req.session.isLoggedIn = true;
+      req.session.user = user;
+      return res.redirect('/');
     }
   } else {
     return res.redirect('/login');
