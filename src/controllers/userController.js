@@ -2,6 +2,7 @@ import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 import fetch from 'node-fetch';
 
+//=============JOIN============================
 export const joinGetController = (req, res) => {
   res.render('join', { pageTitle: 'Join' });
 };
@@ -39,6 +40,7 @@ export const joinPostController = async (req, res) => {
   }
 };
 
+//============LOGIN===============================//
 export const loginGetController = (req, res) => {
   res.render('login', { pageTitle: 'Login' });
 };
@@ -65,18 +67,7 @@ export const loginPostController = async (req, res) => {
   res.redirect('/');
 };
 
-export const userProfileController = (req, res) => {
-  res.send('User Profile');
-};
-
-export const userEditController = (req, res) => {
-  res.send('Edit User');
-};
-
-export const userDeleteController = (req, res) => {
-  res.send('Delete User');
-};
-
+//==========GITHUB==========================================
 export const startGithubLoginController = (req, res) => {
   const baseURL = `https://github.com/login/oauth/authorize`;
   const config = {
@@ -146,7 +137,26 @@ export const finishGithubLoginController = async (req, res) => {
   }
 };
 
+//==========LOGOUT=============================
 export const logoutController = (req, res) => {
   req.session.destroy();
   return res.redirect('/');
+};
+
+//=========EDIT PROFILE==========================
+
+export const getEditProfileController = (req, res) => {
+  res.render('editProfile', { pageTitle: `Edit Profile` });
+};
+
+export const postEditProfileController = (req, res) => {
+  res.render('editProfile');
+};
+
+export const userProfileController = (req, res) => {
+  res.send('User Profile');
+};
+
+export const userDeleteController = (req, res) => {
+  res.send('Delete User');
 };

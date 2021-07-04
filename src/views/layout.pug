@@ -14,7 +14,7 @@ html(lang="en")
       a(href="/search") | Search Video <br>
       if isLoggedIn===true
         a(href="/users/logout") | Logout <br> 
-        a(href="#") | Edit #{loggedInUser.name} Profile
+        a(href="/users/edit") | Edit #{loggedInUser.name} Profile
       else 
         a(href="/login") | Login <br>
         a(href="/join") | Join <br>

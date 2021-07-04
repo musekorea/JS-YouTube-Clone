@@ -1,6 +1,7 @@
 import express from 'express';
 import {
-  userEditController,
+  getEditProfileController,
+  postEditProfileController,
   userDeleteController,
   logoutController,
   userProfileController,
@@ -10,7 +11,10 @@ import {
 
 const userRouter = express.Router();
 
-userRouter.get('/edit', userEditController);
+userRouter
+  .route('/edit')
+  .get(getEditProfileController)
+  .post(postEditProfileController);
 userRouter.get('/delete', userDeleteController);
 userRouter.get('/logout', logoutController);
 userRouter.get('/github/start', startGithubLoginController);
