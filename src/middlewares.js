@@ -5,3 +5,19 @@ export const localsMiddleware = (req, res, next) => {
   //console.log(res.locals);
   next();
 };
+
+export const protectMiddleware = (req, res, next) => {
+  if (req.session.isLoggedIn) {
+    return next();
+  } else {
+    res.redirect('/login');
+  }
+};
+
+export const publicOnlyMiddleware = (req, res, next) => {
+  if (!req.session.isLoggedIn) {
+    return next();
+  } else {
+    res.redirect('/');
+  }
+};
