@@ -149,10 +149,20 @@ export const getEditProfileController = (req, res) => {
   res.render('editProfile', { pageTitle: `Edit Profile` });
 };
 
-export const postEditProfileController = (req, res) => {
+export const postEditProfileController = async (req, res) => {
+  const { name, email, username, location } = req.body;
+  const id = req.session.user._id;
+
+  await User.findByIdAndUpdate(id, {
+    name,
+    email,
+    username,
+    location,
+  });
   res.render('editProfile');
 };
 
+//============================================================
 export const userProfileController = (req, res) => {
   res.send('User Profile');
 };
