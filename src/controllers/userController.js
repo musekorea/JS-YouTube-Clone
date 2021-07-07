@@ -150,16 +150,40 @@ export const getEditProfileController = (req, res) => {
 };
 
 export const postEditProfileController = async (req, res) => {
+  const currentUser = req.session.user;
+  console.log(`currentUSer`, currentUser);
   const { name, email, username, location } = req.body;
   const id = req.session.user._id;
+  console.log(`input data=`, name, email, username, location);
 
-  await User.findByIdAndUpdate(id, {
-    name,
-    email,
-    username,
-    location,
-  });
-  res.render('editProfile');
+  if (currentUser.username !== username) {
+    const existUser = await User.exists({ username });
+    if (existUser) {
+      req.session.Message = `This username is already taken 🐱‍👤`;
+      return res.status(400).redirect('/users/edit');
+    }
+  }
+  if (currentUser.email !== email) {
+    const existUser = await User.exists({ email });
+    if (existUser) {
+      req.session.Message = `This email is already taken 🐱‍👤`;
+      return res.status(400).redirect('/users/edit');
+    }
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    {
+      name,
+      email,
+      username,
+      location,
+    },
+    { new: true }
+  );
+  req.session.user = updatedUser;
+  req.session.Message = 'Successfully Updated 🐱‍👤';
+  res.redirect('/users/edit');
 };
 
 //============================================================

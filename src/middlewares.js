@@ -2,6 +2,7 @@ export const localsMiddleware = (req, res, next) => {
   res.locals.siteName = 'newTube';
   res.locals.isLoggedIn = Boolean(req.session.isLoggedIn);
   res.locals.loggedInUser = req.session.user || {};
+  res.locals.Message = req.session.Message;
   //console.log(res.locals);
   next();
 };
