@@ -2,11 +2,11 @@ import express from 'express';
 import {
   getEditProfileController,
   postEditProfileController,
-  userDeleteController,
   logoutController,
-  userProfileController,
   startGithubLoginController,
   finishGithubLoginController,
+  getChangePasswordController,
+  postChangePasswordController,
 } from '../controllers/userController';
 import { protectMiddleware, publicOnlyMiddleware } from '../middlewares';
 
@@ -28,7 +28,11 @@ userRouter.get(
   publicOnlyMiddleware,
   finishGithubLoginController
 );
-userRouter.get('/delete', userDeleteController);
-userRouter.get(':id', userProfileController);
+
+userRouter
+  .route('/changePassword')
+  .all(protectMiddleware)
+  .get(getChangePasswordController)
+  .post(postChangePasswordController);
 
 export default userRouter;

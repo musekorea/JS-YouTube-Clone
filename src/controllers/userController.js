@@ -187,10 +187,13 @@ export const postEditProfileController = async (req, res) => {
 };
 
 //============================================================
-export const userProfileController = (req, res) => {
-  res.send('User Profile');
-};
 
-export const userDeleteController = (req, res) => {
-  res.send('Delete User');
+export const getChangePasswordController = (req, res) => {
+  if (req.session.user.socialOnly === true) {
+    return res.redirect('/');
+  }
+  return res.render(`user/changePassword`, { pageTitle: `Change Password` });
+};
+export const postChangePasswordController = (req, res) => {
+  return res.redirect(`/`);
 };
