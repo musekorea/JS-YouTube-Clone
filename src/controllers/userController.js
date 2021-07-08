@@ -186,7 +186,7 @@ export const postEditProfileController = async (req, res) => {
   res.redirect('/users/edit');
 };
 
-//============================================================
+//==========CHANGE PASSWORD=======================================
 
 export const getChangePasswordController = (req, res) => {
   if (req.session.user.socialOnly === true) {
@@ -194,6 +194,28 @@ export const getChangePasswordController = (req, res) => {
   }
   return res.render(`user/changePassword`, { pageTitle: `Change Password` });
 };
-export const postChangePasswordController = (req, res) => {
-  return res.redirect(`/`);
+export const postChangePasswordController = async (req, res) => {
+  const { oldPwd, newPwd1, newPwd2 } = req.body;
+  const { _id: id, password } = req.session.user;
+  const ok = await bcrypt.compare(oldPwd, password);
+  if (!ok) {
+    return res.status(400).render('user/changePassword.pug', {
+      pageTite: `Change Password`,
+      errorMessage: 'The current password is incorrect',
+    });
+  }
+
+  if (newPwd1 !== newPwd2) {
+    return res.status(400).render('user/changePassword.pug', {
+      pageTite: `Change Password`,
+      errorMessage: 'The password does not match',
+    });
+  }
+
+  const user = await User.findById(id);
+  user.password = newPwd1;
+  await user.save();
+  req.session.user.password = user.password;
+
+  return res.redirect(`/users/logout`);
 };
