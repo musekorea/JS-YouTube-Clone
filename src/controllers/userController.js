@@ -150,6 +150,7 @@ export const getEditProfileController = (req, res) => {
 };
 
 export const postEditProfileController = async (req, res) => {
+  console.log(req.file);
   const currentUser = req.session.user;
   console.log(`currentUSer`, currentUser);
   const { name, email, username, location } = req.body;

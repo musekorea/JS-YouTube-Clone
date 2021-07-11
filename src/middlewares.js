@@ -1,3 +1,5 @@
+import multer from 'multer';
+
 export const localsMiddleware = (req, res, next) => {
   res.locals.siteName = 'newTube';
   res.locals.isLoggedIn = Boolean(req.session.isLoggedIn);
@@ -22,3 +24,5 @@ export const publicOnlyMiddleware = (req, res, next) => {
     res.redirect('/');
   }
 };
+
+export const uploadMiddleware = multer({ dest: `uploads/` });
