@@ -1,6 +1,7 @@
 extends layout.pug
 
 block content 
+  img(src=`/${loggedInUser.avatarURL}` style="width:100px; height:100px")
   form(method="post" enctype="multipart/form-data")
     label(for="avatar") Avatar
     input(type="file" name="avatar" id="avatar" accept="image/*" )

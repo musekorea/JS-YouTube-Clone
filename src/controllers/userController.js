@@ -150,12 +150,9 @@ export const getEditProfileController = (req, res) => {
 };
 
 export const postEditProfileController = async (req, res) => {
-  console.log(req.file);
   const currentUser = req.session.user;
-  console.log(`currentUSer`, currentUser);
   const { name, email, username, location } = req.body;
   const id = req.session.user._id;
-  console.log(`input data=`, name, email, username, location);
 
   if (currentUser.username !== username) {
     const existUser = await User.exists({ username });
@@ -175,6 +172,7 @@ export const postEditProfileController = async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(
     id,
     {
+      avatarURL: req.file ? req.file.path : currentUser.avatarURL,
       name,
       email,
       username,
