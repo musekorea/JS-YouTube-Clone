@@ -2,6 +2,7 @@ extends layout.pug
 
 block content 
   h1=videoDB.title
+  video(src=`/${videoDB.fileURL}` controls)
   div
     p=videoDB.description
     small=videoDB.createdAt

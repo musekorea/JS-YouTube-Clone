@@ -11,7 +11,7 @@ import {
 import {
   protectMiddleware,
   publicOnlyMiddleware,
-  uploadMiddleware,
+  avatarUploadMiddleware,
 } from '../middlewares.js';
 
 const userRouter = express.Router();
@@ -20,7 +20,7 @@ userRouter
   .route('/edit')
   .all(protectMiddleware)
   .get(getEditProfileController)
-  .post(uploadMiddleware.single(`avatar`), postEditProfileController);
+  .post(avatarUploadMiddleware.single(`avatar`), postEditProfileController);
 userRouter.get('/logout', protectMiddleware, logoutController);
 userRouter.get(
   '/github/start',
