@@ -10,7 +10,6 @@ import {
   loginPostController,
 } from '../controllers/userController';
 import { publicOnlyMiddleware } from '../middlewares';
-import { get } from 'mongoose';
 
 const rootRouter = express.Router();
 

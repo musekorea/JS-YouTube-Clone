@@ -199,14 +199,14 @@ export const postChangePasswordController = async (req, res) => {
   const ok = await bcrypt.compare(oldPwd, password);
   if (!ok) {
     return res.status(400).render('user/changePassword.pug', {
-      pageTite: `Change Password`,
+      pageTitle: `Change Password`,
       errorMessage: 'The current password is incorrect',
     });
   }
 
   if (newPwd1 !== newPwd2) {
     return res.status(400).render('user/changePassword.pug', {
-      pageTite: `Change Password`,
+      pageTitle: `Change Password`,
       errorMessage: 'The password does not match',
     });
   }
@@ -217,4 +217,17 @@ export const postChangePasswordController = async (req, res) => {
   req.session.user.password = user.password;
 
   return res.redirect(`/users/logout`);
+};
+
+//===========USER PROFILE===================================
+export const getProfileController = async (req, res) => {
+  const { id } = req.params;
+  const userData = await User.findById(id);
+  if (!userData) {
+    return res.status(404).render('404', { pageTItle: 'User not found.' });
+  }
+  res.render('userProfile', {
+    pageTitle: `${userData.name}'s Profile`,
+    userData,
+  });
 };

@@ -13,6 +13,7 @@ html(lang="en")
       a(href="/search") | Search Video <br>
       if isLoggedIn===true
         a(href="/videos/upload") | Upload Video <br>
+        a(href=`/users/${loggedInUser._id}`) | My Profile
         a(href="/users/logout") | Logout <br> 
         a(href="/users/edit") | Edit #{loggedInUser.name} Profile
       else 
