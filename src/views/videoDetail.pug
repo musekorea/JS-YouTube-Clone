@@ -5,7 +5,10 @@ block content
   video(src=`/${videoDB.fileURL}` controls)
   div
     p=videoDB.description
-    small=videoDB.createdAt
-  a(href=`${videoDB.id}/edit`) Edit Video &rarr;
-  br
-  a(href=`${videoDB.id}/delete`) Delete Video &rarr;
+    small=videoDB.createdAt  
+    p=videoOwner.name    
+
+  if String(videoDB.owner) === String(loggedInUser._id)
+    a(href=`${videoDB.id}/edit`) Edit Video &rarr;
+    br
+    a(href=`${videoDB.id}/delete`) Delete Video &rarr;

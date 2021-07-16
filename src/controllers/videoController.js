@@ -1,4 +1,5 @@
 import Video from '../models/Video.js';
+import User from '../models/User.js';
 
 export const homeController = async (req, res) => {
   const pageTitle = `Welcome Home`;
@@ -27,11 +28,12 @@ export const searchController = async (req, res) => {
 export const videoDetailController = async (req, res) => {
   const pageTitle = `Watching `;
   const videoID = req.params;
-  console.log(videoID);
   const videoDB = await Video.findById(videoID.id);
-  console.log(videoDB);
+  console.log(videoDB.owner);
+  const videoOwner = await User.findById(videoDB.owner);
+
   if (videoDB) {
-    res.render('videoDetail', { pageTitle, videoDB });
+    res.render('videoDetail', { pageTitle, videoDB, videoOwner });
   } else {
     res
       .status(404)
@@ -79,6 +81,8 @@ export const videoGetUploadController = (req, res) => {
   res.render('uploadVideo', { pageTitle });
 };
 export const videoPostUploadController = async (req, res) => {
+  const ownerID = req.session.user._id;
+  console.log(ownerID);
   const videoFile = req.file;
   console.log(videoFile.path);
   const { title, description, hashTags } = req.body;
@@ -88,6 +92,7 @@ export const videoPostUploadController = async (req, res) => {
       description,
       fileURL: videoFile.path,
       hashTags: Video.formatHashTags(hashTags),
+      owner: ownerID,
     });
     res.redirect('/');
   } catch (error) {
