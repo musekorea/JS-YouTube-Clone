@@ -1,6 +1,7 @@
 import Video from '../models/Video.js';
 import User from '../models/User.js';
 
+//====================HOME=====================================
 export const homeController = async (req, res) => {
   const pageTitle = `Welcome Home`;
   try {
@@ -11,6 +12,7 @@ export const homeController = async (req, res) => {
   }
 };
 
+//==================SEARCH=====================================
 export const searchController = async (req, res) => {
   const { keyword } = req.query;
   let videoDB = [];
@@ -25,15 +27,16 @@ export const searchController = async (req, res) => {
   res.render('search', { pageTitle: `Search`, videoDB });
 };
 
+//======================PROFILE===================================
 export const videoDetailController = async (req, res) => {
   const pageTitle = `Watching `;
   const videoID = req.params;
-  const videoDB = await Video.findById(videoID.id);
-  console.log(videoDB.owner);
-  const videoOwner = await User.findById(videoDB.owner);
+  const videoDB = await Video.findById(videoID.id).populate('owner');
+  console.log(typeof videoDB.owner._id);
+  console.log(typeof res.locals.loggedInUser.id);
 
   if (videoDB) {
-    res.render('videoDetail', { pageTitle, videoDB, videoOwner });
+    res.render('videoDetail', { pageTitle, videoDB });
   } else {
     res
       .status(404)
@@ -41,6 +44,7 @@ export const videoDetailController = async (req, res) => {
   }
 };
 
+//======================EDIT=================================
 export const videoGetEditController = async (req, res) => {
   const videoID = req.params.id;
   const videoDB = await Video.findById(videoID);
@@ -76,6 +80,7 @@ export const videoPostEditController = async (req, res) => {
   res.redirect('edit');
 };
 
+//==================UPLOAD=================================
 export const videoGetUploadController = (req, res) => {
   const pageTitle = `Upload Video`;
   res.render('uploadVideo', { pageTitle });
@@ -101,6 +106,7 @@ export const videoPostUploadController = async (req, res) => {
   }
 };
 
+//===============DELETE=====================================
 export const videoDeleteController = async (req, res) => {
   const videoID = req.params.id;
   console.log(videoID);

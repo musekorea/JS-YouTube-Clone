@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import Video from '../models/Video.js';
 import bcrypt from 'bcrypt';
 import fetch from 'node-fetch';
 
@@ -223,11 +224,15 @@ export const postChangePasswordController = async (req, res) => {
 export const getProfileController = async (req, res) => {
   const { id } = req.params;
   const userData = await User.findById(id);
+  console.log(userData);
   if (!userData) {
     return res.status(404).render('404', { pageTItle: 'User not found.' });
   }
-  res.render('userProfile', {
+  const videos = await Video.find({ owner: userData._id });
+  console.log(videos);
+  res.render(`user/userProfile`, {
     pageTitle: `${userData.name}'s Profile`,
     userData,
+    videos,
   });
 };

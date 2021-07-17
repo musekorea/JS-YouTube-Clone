@@ -1,0 +1,10 @@
+extends ../layout.pug
+include ../mixins/videoMixin
+
+block content 
+  ul
+    if videos.length ===0
+      p Nothing is found! 
+    else 
+      each video in videos
+        +videoMixin(video)
