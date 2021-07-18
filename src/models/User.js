@@ -9,10 +9,11 @@ const userSchema = new mongoose.Schema({
   location: String,
   socialOnly: { type: Boolean, default: false },
   avatarURL: String,
+  videos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Video' }],
 });
 
 userSchema.pre('save', async function () {
-  console.log('User Password=', this);
+  //console.log('User Password=', this);
   this.password = await bcrypt.hash(this.password, 5);
   //console.log('Hashed Password=', this);
   //next(); 를 쓰지 않아도 async/await (promise)면 OK

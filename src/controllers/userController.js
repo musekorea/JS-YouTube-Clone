@@ -8,7 +8,6 @@ export const joinGetController = (req, res) => {
   res.render('join', { pageTitle: 'Join' });
 };
 export const joinPostController = async (req, res) => {
-  console.log(req.body);
   const { name, username, email, password, password2, location } = req.body;
   if (password != password2) {
     return res.status(400).render('join', {
@@ -46,7 +45,6 @@ export const loginGetController = (req, res) => {
   res.render('login', { pageTitle: 'Login' });
 };
 export const loginPostController = async (req, res) => {
-  console.log(req.body);
   const { username, password } = req.body;
   const user = await User.findOne({ username });
   if (!user) {
@@ -223,16 +221,14 @@ export const postChangePasswordController = async (req, res) => {
 //===========USER PROFILE===================================
 export const getProfileController = async (req, res) => {
   const { id } = req.params;
-  const userData = await User.findById(id);
-  console.log(userData);
+  const userData = await User.findById(id).populate('videos');
+
   if (!userData) {
     return res.status(404).render('404', { pageTItle: 'User not found.' });
   }
-  const videos = await Video.find({ owner: userData._id });
-  console.log(videos);
+  console.log(userData);
   res.render(`user/userProfile`, {
     pageTitle: `${userData.name}'s Profile`,
     userData,
-    videos,
   });
 };

@@ -87,18 +87,20 @@ export const videoGetUploadController = (req, res) => {
 };
 export const videoPostUploadController = async (req, res) => {
   const ownerID = req.session.user._id;
-  console.log(ownerID);
   const videoFile = req.file;
-  console.log(videoFile.path);
   const { title, description, hashTags } = req.body;
   try {
-    await Video.create({
+    const newVideo = await Video.create({
       title,
       description,
       fileURL: videoFile.path,
       hashTags: Video.formatHashTags(hashTags),
       owner: ownerID,
     });
+    const user = await User.findById(ownerID).populate('videos');
+    await user.videos.push(newVideo._id);
+    await user.save();
+
     res.redirect('/');
   } catch (error) {
     const errorMessage = error._message;

@@ -3,8 +3,8 @@ include ../mixins/videoMixin
 
 block content 
   ul
-    if videos.length ===0
+    if userData.videos.length ===0
       p Nothing is found! 
     else 
-      each video in videos
+      each video in userData.videos
         +videoMixin(video)
