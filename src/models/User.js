@@ -13,10 +13,9 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', async function () {
-  //console.log('User Password=', this);
-  this.password = await bcrypt.hash(this.password, 5);
-  //console.log('Hashed Password=', this);
-  //next(); 를 쓰지 않아도 async/await (promise)면 OK
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 5);
+  }
 });
 
 const User = mongoose.model('User', userSchema);

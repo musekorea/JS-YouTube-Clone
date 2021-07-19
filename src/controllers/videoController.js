@@ -32,8 +32,6 @@ export const videoDetailController = async (req, res) => {
   const pageTitle = `Watching `;
   const videoID = req.params;
   const videoDB = await Video.findById(videoID.id).populate('owner');
-  console.log(typeof videoDB.owner._id);
-  console.log(typeof res.locals.loggedInUser.id);
 
   if (videoDB) {
     res.render('videoDetail', { pageTitle, videoDB });
@@ -48,8 +46,10 @@ export const videoDetailController = async (req, res) => {
 export const videoGetEditController = async (req, res) => {
   const videoID = req.params.id;
   const videoDB = await Video.findById(videoID);
-  console.log(videoDB);
   const pageTitle = `Edit`;
+  if (String(videoDB.owner) !== String(req.session.user._id)) {
+    return res.status(403).redirect('/');
+  }
   if (!videoDB) {
     return res
       .status(404)
@@ -71,6 +71,11 @@ export const videoPostEditController = async (req, res) => {
       .status(404)
       .render('status404', { pageTitle: 'Video not found!' });
   }
+  const videoDB = await Video.findById(videoID);
+  if (String(videoDB.owner) !== String(req.session.user._id)) {
+    return res.status(403).redirect('/');
+  }
+
   const { title, description, hashTags } = req.body;
   await Video.findByIdAndUpdate(videoID, {
     title,
@@ -111,7 +116,17 @@ export const videoPostUploadController = async (req, res) => {
 //===============DELETE=====================================
 export const videoDeleteController = async (req, res) => {
   const videoID = req.params.id;
-  console.log(videoID);
+  const videoDB = await Video.findById(videoID);
+  if (!videoDB) {
+    return res.status(404).render('404', { pageTitle: `Video not found.` });
+  }
+  if (String(videoDB.owner) !== String(req.session.user._id)) {
+    return res.status(403).redirect('/');
+  }
+  const userDB = await User.findById(String(videoDB.owner));
+  console.log(userDB.videos);
+  await userDB.videos.splice(userDB.videos.indexOf(`ObjectId(${videoID})`), 1);
+  await userDB.save();
   await Video.findByIdAndDelete(videoID);
   res.redirect('/');
 };
