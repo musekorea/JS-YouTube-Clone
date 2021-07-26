@@ -1,13 +1,20 @@
 header
-  i(class="fab fa-youtube")
-  h1=pageTitle
-  a(href="/") HOME  
-  a(href="/search") | Search Video <br>
-  if isLoggedIn===true
-    a(href="/videos/upload") | Upload Video <br>
-    a(href=`/users/${loggedInUser._id}`) | My Profile
-    a(href="/users/logout") | Logout <br> 
-    a(href="/users/edit") | Edit #{loggedInUser.name} Profile
-  else 
-    a(href="/login") | Login <br>
-    a(href="/join") | Join <br>
+  //h1=pageTitle
+  div(class="header__wrap")
+    a(href="/")
+      i(class="fab fa-youtube header__logo") 
+        span WeTube  
+    //a(href="/search") 
+    form(method="get")
+      input(type="text" name="keyword" placeholder="Search by Title")
+      button 
+        i(class="fas fa-search search__logo") 
+
+    if isLoggedIn===true
+      a(href="/videos/upload") UPLOAD VIDEO <br>
+      a(href=`/users/${loggedInUser._id}`) My Profile
+      a(href="/users/edit") Edit #{loggedInUser.name} Profile
+      a(href="/users/logout" class="header__btn") LOGOUT <br> 
+    else 
+      a(href="/login") LOGIN <br>
+      a(href="/join" class="header__btn") JOIN <br>
