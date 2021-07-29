@@ -1,8 +1,5 @@
 import express from 'express';
-import {
-  homeController,
-  searchController,
-} from '../controllers/videoController';
+import { homeController } from '../controllers/videoController';
 import {
   joinGetController,
   joinPostController,
@@ -21,6 +18,5 @@ rootRouter
   .all(publicOnlyMiddleware)
   .get(loginGetController)
   .post(loginPostController);
-rootRouter.get('/search', searchController);
 
 export default rootRouter;

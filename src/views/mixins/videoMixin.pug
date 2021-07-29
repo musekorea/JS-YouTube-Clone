@@ -1,10 +1,13 @@
 mixin videoMixin(video)
-  div
-    h4
+  div(class="video-mixin")
+    a(href=`/videos/${video.id}`)
+      div(class="video-mixin__thumbnail")
+    div(class="video-mixin__info")
       a(href=`/videos/${video.id}`)=video.title
-    p=video.description
-    small=video.createdAt
-    ul 
-      each hashTags in video.hashTags
-        li=hashTags
-    hr
+      div(class="video-mixin__meta")
+        a(href=`/users/${video.owner.id}`)
+          p=video.owner.name
+        span #{video.meta.views} views //
+        span #{video.createdAt.toISOString().substring(0,10)}
+
+

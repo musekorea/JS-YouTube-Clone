@@ -3,10 +3,16 @@
 @import './config/reset.scss';
 
 //=========Components====================
+@import './components/forms.scss';
 @import './components/header.scss';
 @import './components/footer.scss';
+@import './components/video.scss';
+@import './components/share.scss';
 
 //========Screens=========================
+@import './screens/home.scss';
+@import './screens/editProfile.scss';
+@import './screens/userProfile.scss';
 
 //========Default=========================
 a {
@@ -19,4 +25,15 @@ body {
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: $bg;
   color: black;
+  width: 98vw;
+  height: 90vh;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 70px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

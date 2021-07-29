@@ -221,12 +221,18 @@ export const postChangePasswordController = async (req, res) => {
 //===========USER PROFILE===================================
 export const getProfileController = async (req, res) => {
   const { id } = req.params;
-  const userData = await User.findById(id).populate('videos');
-
+  const userData = await User.findById(id).populate({
+    path: 'videos',
+    populate: {
+      path: 'owner',
+      model: 'User',
+    },
+  });
+  console.log(userData.videos[0].owner);
   if (!userData) {
     return res.status(404).render('404', { pageTItle: 'User not found.' });
   }
-  console.log(userData);
+
   res.render(`user/userProfile`, {
     pageTitle: `${userData.name}'s Profile`,
     userData,

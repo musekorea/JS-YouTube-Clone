@@ -1,11 +1,17 @@
 header {
   width: 100vw;
+  background-color: $bg;
+  position: fixed;
+  z-index: 3;
+  top: 0;
+  border: 1px solid black;
+
   .header__wrap {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 17px 40px;
-    border: 1px solid black;
+    //border: 1px solid black;
     font-size: 17px;
   }
   .header__logo {
@@ -19,7 +25,7 @@ header {
       margin-left: 10px;
     }
   }
-  form {
+  .search__form {
     width: 35%;
     display: flex;
     justify-content: space-between;
@@ -34,9 +40,42 @@ header {
       }
     }
   }
-  .header__btn {
-    background-color: $button;
-    padding: 5px 10px;
-    border-radius: 10px;
+}
+.avatar-container {
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 7px;
+}
+.headerButtonContainer {
+  display: flex;
+  width: 200px;
+  justify-content: space-evenly;
+  background-color: rgba(127, 255, 212, 0.9);
+  border-radius: 10px;
+  padding: 7px;
+  border: 1px solid rgba(128, 128, 128, 0.322);
+  box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.2);
+  .header__btn:hover {
+    color: $red;
+    transform: scale(0.95);
+  }
+}
+.logoutBtn {
+  border: 1px solid gray;
+  padding: 7px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.2);
+  color: red;
+  &:hover {
+    transform: scale(0.95);
+    color: blue;
   }
 }

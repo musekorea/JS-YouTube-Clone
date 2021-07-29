@@ -2,9 +2,22 @@ extends ../layout.pug
 include ../mixins/videoMixin
 
 block content 
-  ul
-    if userData.videos.length ===0
-      p Nothing is found! 
-    else 
-      each video in userData.videos
-        +videoMixin(video)
+
+  div(class="userProfile-container")
+    div(class="profile-nav")
+      img(class="avatar" src=`/${loggedInUser.avatarURL}`)
+      div(class="uploadedVideos")
+        p(class="userProfileName") #{userData.name} 
+        hr
+        p Uploaded Videos : #{userData.videos.length}
+      a(class="userEditLink" href="/users/edit") Edit Profile
+  
+    ul
+      if userData.videos.length ===0
+        p(class="empty__message") Nothing is found! 
+      else 
+        div(class="video__grid")
+          each video in userData.videos
+            +videoMixin(video)
+
+  

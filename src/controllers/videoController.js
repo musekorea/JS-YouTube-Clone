@@ -5,29 +5,27 @@ import User from '../models/User.js';
 export const homeController = async (req, res) => {
   const pageTitle = `Welcome Home`;
   try {
-    const videoDB = await Video.find().sort({ createdAt: 'descending' });
+    let videoDB = [];
+    videoDB = await Video.find()
+      .sort({ createdAt: 'descending' })
+      .populate('owner');
+
+    const keyword = req.query.keyword;
+    if (keyword) {
+      console.log(keyword);
+      videoDB = await Video.find({
+        title: { $regex: new RegExp(`${keyword}$`, 'i') },
+      }).populate('owner');
+      return res.render('search', { pageTitle: `Search`, videoDB });
+    }
+
     res.render('home.pug', { pageTitle, videoDB });
   } catch (error) {
     res.status(404).render('serverError', { error });
   }
 };
 
-//==================SEARCH=====================================
-export const searchController = async (req, res) => {
-  const { keyword } = req.query;
-  let videoDB = [];
-  if (keyword) {
-    console.log(keyword);
-    videoDB = await Video.find({
-      title: {
-        $regex: new RegExp(`${keyword}$`, 'i'),
-      },
-    });
-  }
-  res.render('search', { pageTitle: `Search`, videoDB });
-};
-
-//======================PROFILE===================================
+//======================Video Detail=============================
 export const videoDetailController = async (req, res) => {
   const pageTitle = `Watching `;
   const videoID = req.params;

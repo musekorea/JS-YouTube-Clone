@@ -8,9 +8,9 @@ block content
     input(type="text" name="username" required placeholder="Username")
     input(type="password" name="password" required placeholder="Password")
     input(type="submit" Value="Login")
-  br
-  a(href="/users/github/start") Continue with Github &rarr; 
-   
-  div 
-    span Don't have an account?
-    a(href="/join")  Create one now &rarr;
+    hr
+    div(class="social-login__btn") 
+      a(href="/users/github/start") Continue with Github <i class="fab fa-github"></i> &rarr; 
+    div(class="auth-switch")
+      span Don't have an account?
+        a(href="/join")  Create one now &rarr;

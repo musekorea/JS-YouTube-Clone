@@ -5,16 +5,21 @@ header
       i(class="fab fa-youtube header__logo") 
         span WeTube  
     //a(href="/search") 
-    form(method="get")
+    form(method="get" class="search__form")
       input(type="text" name="keyword" placeholder="Search by Title")
       button 
         i(class="fas fa-search search__logo") 
 
     if isLoggedIn===true
       a(href="/videos/upload") UPLOAD VIDEO <br>
-      a(href=`/users/${loggedInUser._id}`) My Profile
-      a(href="/users/edit") Edit #{loggedInUser.name} Profile
-      a(href="/users/logout" class="header__btn") LOGOUT <br> 
+      if loggedInUser.avatarURL===""
+        a(href=`/users/${loggedInUser._id}`) 👩‍💻 #{loggedInUser.name}
+      else 
+        a(href=`/users/${loggedInUser._id}` class="avatar-container" )
+          img(src=`/${loggedInUser.avatarURL}` class="header-avatar") 
+          span   #{loggedInUser.name}
+      a(href="/users/logout" class="logoutBtn") LOGOUT <br> 
     else 
-      a(href="/login") LOGIN <br>
-      a(href="/join" class="header__btn") JOIN <br>
+      div(class="headerButtonContainer")
+        a(href="/login" class="header__btn") LOGIN <br>
+        a(href="/join" class="header__btn") JOIN <br>

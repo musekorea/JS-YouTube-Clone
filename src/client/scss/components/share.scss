@@ -1,0 +1,40 @@
+.empty__message {
+  border: 1px solid black;
+  margin-bottom: 50px;
+  font-size: 18px;
+  text-align: center;
+}
+.video__grid {
+  background-color: rgba(255, 0, 0, 0.295);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px;
+
+  width: 100%;
+  padding: 20px;
+}
+.social-login__btn {
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+  a {
+    padding: 10px 20px;
+    width: 80%;
+    border: 1px solid gray;
+    color: white;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+    background-color: rgba(51, 51, 51, 0.7);
+  }
+}
+.auth-switch {
+  margin-top: 25px;
+  width: 100%;
+
+  color: gray;
+  a {
+    text-decoration: underline;
+    color: red;
+  }
+}
