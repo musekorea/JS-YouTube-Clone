@@ -1,20 +1,14 @@
 extends layout.pug 
 
 block content 
-  h1=videoDB.title
-  video(src=`/${videoDB.fileURL}` controls)
-
-  div
-    p=videoDB.description
-    small=videoDB.createdAt
-    br
-    small Uploaded by  
-      a(href=`/users/${videoDB.owner._id}`)  #{videoDB.owner.name}
-      
-  if String(videoDB.owner._id) === String(loggedInUser._id)
-    a(href=`${videoDB.id}/edit`) Edit Video &rarr;
-    br
-    a(href=`${videoDB.id}/delete`) Delete Video &rarr;//
+  div(class="playerWrap")
+    video(src=`/${videoDB.fileURL}` controls)
+    div(class="player-container")
+      <i id="playerPlayBtn" class="fas fa-play"></i>
+      //<i class="fas fa-pause"></i>
+      button(id="playerMuteBtn") Mute
+      span(id="playerTimeSpan") 00:00/00:00
+      input(id="playerVolumeRange" type="range" min="0" max="1" step="0.1")
 
 block scripts 
-  script(src="/assets/js/videoPlayer.js")
+  script(defer src="/assets/js/videoPlayer.js")
