@@ -3,10 +3,8 @@ const play = document.querySelector('#playerPlayBtn');
 const mute = document.querySelector('#playerMuteBtn');
 const time = document.querySelector('#playerTimeSpan');
 const volume = document.querySelector('#playerVolumeRange');
-console.log(video, play, mute, time, volume);
 
 const handlePlay = (e) => {
-  play.classList;
   if (video.paused) {
     video.play();
     play.className = `fas fa-pause`;
@@ -15,7 +13,18 @@ const handlePlay = (e) => {
     play.className = `fas fa-play`;
   }
 };
-const handleMute = (e) => {};
+
+const handleMute = (e) => {
+  if (video.muted) {
+    video.muted = false;
+    mute.className = `fas fa-volume-down`;
+    volume.value = 0.5;
+  } else {
+    video.muted = true;
+    mute.className = `fas fa-volume-mute`;
+    volume.value = 0;
+  }
+};
 
 play.addEventListener('click', handlePlay);
 mute.addEventListener('click', handleMute);
