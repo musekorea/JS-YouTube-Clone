@@ -3,19 +3,19 @@ extends layout.pug
 block content 
   div(class="playerWrap")
     video(src=`/${videoDB.fileURL}` controls)
-    div 
-      input(id="timeLine" type="range" value="0" min="0" step="1" )
+
         
-    div(class="player-container")
-      <i id="playerPlayBtn" class="fas fa-play"></i>
-      <i id="playerMuteBtn" class="fas fa-volume-down"></i>
-      
-      div(class="player-timer")
-        span(id="playerCurrentTime") 00:00
-        span  /  
-        span(id="playerTotalTime") 00:00
-      input(id="playerVolumeRange"  type="range" value="0.5" min="0" max="1" step="0.1")
-      <i id="playerFullScreen" class="fas fa-expand"></i>
+    div(class="player-controllers")
+      input(id="timeLine" type="range" value="0" min="0" step="1" ) 
+      div(class="player-buttons")
+        <i id="playerPlayBtn" class="fas fa-play"></i>
+        <i id="playerMuteBtn" class="fas fa-volume-down"></i>
+        div(class="player-timer")
+          span(id="playerCurrentTime") 00:00
+          span  /  
+          span(id="playerTotalTime") 00:00
+          input(id="playerVolumeRange"  type="range" value="0.5" min="0" max="1" step="0.1")
+          <i id="playerFullScreen" class="fas fa-expand"></i>
       
 
 block scripts 

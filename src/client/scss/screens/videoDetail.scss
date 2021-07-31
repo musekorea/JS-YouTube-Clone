@@ -7,9 +7,21 @@
     color: white;
   }
 }
-.player-container {
-  margin-top: 150px;
+.player-controllers {
+  margin-top: 50px;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
-  width: 400px;
+  width: 450px;
+  user-select: none;
+}
+.player-buttons {
+  margin-top: 50px;
+  display: flex;
+  width: 350px;
+  justify-content: space-around;
+}
+
+.hide {
+  display: none;
 }

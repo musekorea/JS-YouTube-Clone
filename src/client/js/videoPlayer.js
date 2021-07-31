@@ -7,6 +7,7 @@ const currentTime = document.querySelector('#playerCurrentTime');
 const timeLine = document.querySelector('#timeLine');
 const fullScreen = document.querySelector('#playerFullScreen');
 const playerWrap = document.querySelector('.playerWrap');
+const controllers = document.querySelector('.player-controllers');
 
 let currentVolume;
 
@@ -78,6 +79,30 @@ const handleFullScreen = (e) => {
   }
 };
 
+let timeoutCheck = null;
+let mouseStopCheck = null;
+
+const handleMouseMove = (e) => {
+  if (timeoutCheck) {
+    clearTimeout(timeoutCheck);
+    //timeoutCheck = null;
+  }
+  if (mouseStopCheck) {
+    clearTimeout(mouseStopCheck);
+    //mouseStopCheck = null;
+  }
+  mouseStopCheck = setTimeout(() => {
+    controllers.classList.add('hide');
+  }, 3000);
+  controllers.classList.remove('hide');
+};
+
+const handleMouseLeave = (e) => {
+  timeoutCheck = setTimeout(() => {
+    controllers.classList.add('hide');
+  }, 3000);
+};
+
 play.addEventListener('click', handlePlay);
 mute.addEventListener('click', handleMute);
 volume.addEventListener('input', handelVolume);
@@ -85,3 +110,5 @@ video.addEventListener('loadedmetadata', handleMetaData);
 video.addEventListener('timeupdate', handleCurrentTime);
 timeLine.addEventListener('input', handleTimeLine);
 fullScreen.addEventListener('click', handleFullScreen);
+video.addEventListener('mousemove', handleMouseMove);
+video.addEventListener('mouseleave', handleMouseLeave);
