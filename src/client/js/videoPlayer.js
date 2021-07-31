@@ -5,7 +5,9 @@ const volume = document.querySelector('#playerVolumeRange');
 const totalTime = document.querySelector('#playerTotalTime');
 const currentTime = document.querySelector('#playerCurrentTime');
 const timeLine = document.querySelector('#timeLine');
-console.log(timeLine);
+const fullScreen = document.querySelector('#playerFullScreen');
+const playerWrap = document.querySelector('.playerWrap');
+
 let currentVolume;
 
 const handlePlay = (e) => {
@@ -66,9 +68,20 @@ const handleTimeLine = (e) => {
   video.currentTime = e.target.value;
 };
 
+const handleFullScreen = (e) => {
+  if (document.fullscreenElement === null) {
+    playerWrap.requestFullscreen();
+    fullScreen.className = `fas fa-compress`;
+  } else {
+    document.exitFullscreen();
+    fullScreen.className = `fas fa-expand`;
+  }
+};
+
 play.addEventListener('click', handlePlay);
 mute.addEventListener('click', handleMute);
 volume.addEventListener('input', handelVolume);
 video.addEventListener('loadedmetadata', handleMetaData);
 video.addEventListener('timeupdate', handleCurrentTime);
 timeLine.addEventListener('input', handleTimeLine);
+fullScreen.addEventListener('click', handleFullScreen);
