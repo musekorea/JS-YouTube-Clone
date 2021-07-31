@@ -1,6 +1,8 @@
-.plyaerWrap {
+.playerWrap {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .player-container {
   margin-top: 150px;

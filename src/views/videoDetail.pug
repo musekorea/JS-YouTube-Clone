@@ -3,10 +3,12 @@ extends layout.pug
 block content 
   div(class="playerWrap")
     video(src=`/${videoDB.fileURL}` controls)
+    div 
+      input(id="timeLine" type="range" value="0" min="0" step="1" )
+        
     div(class="player-container")
       <i id="playerPlayBtn" class="fas fa-play"></i>
       <i id="playerMuteBtn" class="fas fa-volume-down"></i>
-      
       div(class="player-timer")
         span(id="playerCurrentTime") 00:00
         span  /  
