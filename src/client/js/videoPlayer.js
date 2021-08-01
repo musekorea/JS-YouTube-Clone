@@ -85,11 +85,14 @@ let mouseStopCheck = null;
 const handleMouseMove = (e) => {
   if (timeoutCheck) {
     clearTimeout(timeoutCheck);
-    //timeoutCheck = null;
+    timeoutCheck = null;
   }
   if (mouseStopCheck) {
     clearTimeout(mouseStopCheck);
-    //mouseStopCheck = null;
+    mouseStopCheck = null;
+  }
+  if (video.paused) {
+    return;
   }
   mouseStopCheck = setTimeout(() => {
     controllers.classList.add('hide');
@@ -98,9 +101,42 @@ const handleMouseMove = (e) => {
 };
 
 const handleMouseLeave = (e) => {
-  timeoutCheck = setTimeout(() => {
-    controllers.classList.add('hide');
-  }, 3000);
+  if (video.paused) {
+    return;
+  } else {
+    timeoutCheck = setTimeout(() => {
+      controllers.classList.add('hide');
+    }, 3000);
+  }
+};
+
+const keyboardShortcut = (e) => {
+  if (e.code === 'Space' && video.paused) {
+    play.className = `fas fa-pause`;
+    video.play();
+  } else if (e.code === 'Space' && !video.paused) {
+    video.pause();
+    play.className = `fas fa-play`;
+  } else if (
+    (e.code === 'Enter' || e.code === 'NumpadEnter') &&
+    document.fullscreenElement === null
+  ) {
+    fullScreen.className = `fas fa-compress`;
+    playerWrap.requestFullscreen();
+  } else {
+    fullScreen.className = `fas fa-expand`;
+    document.exitFullscreen();
+  }
+};
+
+const handleClickPlay = () => {
+  if (video.paused) {
+    video.play();
+    play.className = `fas fa-pause`;
+  } else {
+    video.pause();
+    play.className = `fas fa-play`;
+  }
 };
 
 play.addEventListener('click', handlePlay);
@@ -110,5 +146,7 @@ video.addEventListener('loadedmetadata', handleMetaData);
 video.addEventListener('timeupdate', handleCurrentTime);
 timeLine.addEventListener('input', handleTimeLine);
 fullScreen.addEventListener('click', handleFullScreen);
-video.addEventListener('mousemove', handleMouseMove);
-video.addEventListener('mouseleave', handleMouseLeave);
+playerWrap.addEventListener('mousemove', handleMouseMove);
+playerWrap.addEventListener('mouseleave', handleMouseLeave);
+document.addEventListener('keydown', keyboardShortcut);
+video.addEventListener('click', handleClickPlay);
