@@ -10,13 +10,35 @@ const playerWrap = document.querySelector('.playerWrap');
 const controllers = document.querySelector('.player-controllers');
 
 let currentVolume;
+let viewsCheck;
+let playingTimeCheck = 0;
 
 const handlePlay = (e) => {
   if (video.paused) {
     video.play();
     play.className = `fas fa-pause`;
+    viewsCheck = setInterval(() => {
+      if (playingTimeCheck === Math.floor(video.duration * 0.01)) {
+        console.log(`view+1`);
+        const videoID = document.location.href.split('/')[4];
+        console.log(videoID);
+        fetch(`/api/videos/views`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ videoID }),
+        });
+        clearInterval(viewsCheck);
+        viewsCheck = null;
+      } else {
+        console.log(`playTIME`, playingTimeCheck);
+        playingTimeCheck++;
+      }
+    }, 1000);
   } else {
     video.pause();
+    clearInterval(viewsCheck);
     play.className = `fas fa-play`;
   }
 };

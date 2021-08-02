@@ -128,3 +128,15 @@ export const videoDeleteController = async (req, res) => {
   await Video.findByIdAndDelete(videoID);
   res.redirect('/');
 };
+//==========VIEWS CONTROLLER=======================//
+export const videoViewsController = async (req, res) => {
+  const videoID = req.body.videoID;
+  const videoData = await Video.findById(videoID);
+  if (!videoData) {
+    return res.sendStatus(404);
+  }
+  console.log(videoData);
+  videoData.meta.views = videoData.meta.views + 1;
+  await videoData.save();
+  return res.sendStatus(200);
+};

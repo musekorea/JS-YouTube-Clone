@@ -4,6 +4,7 @@ import session from 'express-session';
 import rootRouter from './routers/rootRouter';
 import userRouter from './routers/userRouters';
 import videoRouter from './routers/videoRouters';
+import apiRouter from './routers/apiRouter';
 import { localsMiddleware, protectMiddleware } from './middlewares';
 import MongoStore from 'connect-mongo';
 
@@ -12,7 +13,9 @@ const app = express();
 app.use(morgan('dev'));
 app.set('view engine', 'pug');
 app.set('views', process.cwd() + '/src/views');
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,
@@ -30,5 +33,6 @@ app.use('/assets', express.static('assets'));
 app.use('/', rootRouter);
 app.use('/videos', videoRouter);
 app.use('/users', userRouter);
+app.use('/api', apiRouter);
 
 export default app;
