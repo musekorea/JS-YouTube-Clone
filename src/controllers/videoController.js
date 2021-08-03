@@ -138,5 +138,5 @@ export const videoViewsController = async (req, res) => {
   console.log(videoData);
   videoData.meta.views = videoData.meta.views + 1;
   await videoData.save();
-  return res.sendStatus(200);
+  return res.status(200).end();
 };

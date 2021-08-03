@@ -11,6 +11,7 @@ header
         i(class="fas fa-search search__logo") 
 
     if isLoggedIn===true
+      a(href="/videos/upload") <i class="fas fa-video"></i>
       a(href="/videos/upload") UPLOAD VIDEO <br>
       if loggedInUser.avatarURL===""
         a(href=`/users/${loggedInUser._id}`) 👩‍💻 #{loggedInUser.name}
