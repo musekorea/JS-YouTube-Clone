@@ -4,6 +4,8 @@ block content
   div(class="uploadPageWrap")
     div(class="videoRecorderContainer")
       <i class="fas fa-video"> Make a New Video</i>
+    video(id="preview")
+
     if(errorMessage)
       span #{errorMessage}
     form(class="uploadForm" method="post" action="/videos/upload" enctype="multipart/form-data")
