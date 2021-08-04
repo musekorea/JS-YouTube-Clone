@@ -4,16 +4,48 @@
   margin-top: 50px;
   align-items: center;
 }
+.uploadForm {
+  margin-top: 15px;
+}
 
 .videoRecorderContainer {
   align-items: center;
-  margin: 50px 0;
   color: white;
   font-size: 10px 20px;
-  background-color: tomato;
+  background-color: black;
   padding: 10px;
   border-radius: 10px;
   width: 85%;
+  cursor: pointer;
+  margin-bottom: 15px;
+  &:hover {
+    transform: scale(0.95);
+    background-color: cornflowerblue;
+  }
 }
-.uploadForm {
+@keyframes updown {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.98);
+  }
+}
+@keyframes flick {
+  from {
+    border-color: red;
+  }
+  to {
+    border-color: black;
+  }
+}
+.active {
+  animation: updown ease 0.6s infinite;
+}
+.hide {
+  display: none;
+}
+.recording {
+  border: 5px dashed transparent;
+  animation: flick ease 0.5s infinite;
 }

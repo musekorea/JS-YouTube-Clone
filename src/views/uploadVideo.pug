@@ -3,8 +3,11 @@ extends layout.pug
 block content 
   div(class="uploadPageWrap")
     div(class="videoRecorderContainer")
-      <i class="fas fa-video"> Make a New Video</i>
-    video(id="preview")
+      span(id="startBtn" class="") <i class="fas fa-video"> Create a video? Please Click!!</i>
+      span(id="recBtn" class="hide") <i class="fas fa-record-vinyl"> Click Here → to Start Recording</i>
+      span(id="stopBtn" class="hide") Camera is Recording<br> <i class="far fa-stop-circle"> Click Here → to Stop Recording</i>
+      span(id="finalBtn" class="hide") Recording is done!
+    video(id="preview" class="hide")
 
     if(errorMessage)
       span #{errorMessage}
