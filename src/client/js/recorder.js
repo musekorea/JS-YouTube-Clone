@@ -1,4 +1,4 @@
-const { set } = require('mongoose');
+import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 
 const recStartBtn = document.querySelector('.videoRecorderContainer');
 const preview = document.querySelector('#preview');
@@ -40,14 +40,13 @@ const handleStartRecord = () => {
   preview.classList.add('recording');
   recStartBtn.removeEventListener('click', handleStartRecord);
   recStartBtn.addEventListener('click', handleStopRecord);
-  recorder = new MediaRecorder(stream, { MimeType: 'video/webm' });
+  recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
   recorder.start();
 };
 
 const handleStopRecord = () => {
   console.log('stop record');
   stopSpan.classList.add('hide');
-
   recStartBtn.style.backgroundColor = `steelblue`;
   recStartBtn.removeEventListener('click', handleStopRecord);
   recorder.stop();
@@ -61,12 +60,21 @@ const handleStopRecord = () => {
   };
 };
 
-const handleDownload = () => {
+const handleDownload = async () => {
+  const ffmpeg = createFFmpeg({ log: true });
+  await ffmpeg.load();
+  ffmpeg.FS('writeFile', 'recording.webm', await fetchFile(videoURL));
+  await ffmpeg.run('-i', 'recording.webm', '-r', '60', 'output.mp4');
+  const mp4File = ffmpeg.FS('readFile', 'output.mp4');
+  const mp4Blob = new Blob([mp4File.buffer], { type: 'video/mp4' });
+  const mp4URL = URL.createObjectURL(mp4Blob);
+  console.log(mp4URL);
+
   const videoDownload = document.createElement('a');
   preview.classList.remove('recording');
   finalSpan.classList.remove('hide');
-  videoDownload.href = videoURL;
-  videoDownload.download = 'MyRecording.webm';
+  videoDownload.href = mp4URL;
+  videoDownload.download = 'MyRecording.mp4';
   document.body.appendChild(videoDownload);
   videoDownload.innerHTML = 'ok';
   videoDownload.click();
