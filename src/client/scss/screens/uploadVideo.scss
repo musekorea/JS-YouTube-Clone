@@ -6,6 +6,12 @@
 }
 .uploadForm {
   margin-top: 15px;
+  label {
+    width: 87%;
+    color: tomato;
+    font-size: 15px;
+    margin: 5px;
+  }
 }
 
 .videoRecorderContainer {
