@@ -65,10 +65,22 @@ const handleDownload = async () => {
   await ffmpeg.load();
   ffmpeg.FS('writeFile', 'recording.webm', await fetchFile(videoURL));
   await ffmpeg.run('-i', 'recording.webm', '-r', '60', 'output.mp4');
+  await ffmpeg.run(
+    '-i',
+    'recording.webm',
+    '-ss',
+    '00:00:01',
+    '-frames:v',
+    '1',
+    'thumbnail.jpg'
+  );
   const mp4File = ffmpeg.FS('readFile', 'output.mp4');
+  const thumbFile = ffmpeg.FS('readFile', 'thumbnail.jpg');
   const mp4Blob = new Blob([mp4File.buffer], { type: 'video/mp4' });
+  const thumbBlob = new Blob([thumbFile.buffer], { type: 'image/jpg' });
   const mp4URL = URL.createObjectURL(mp4Blob);
-  console.log(mp4URL);
+  const jpgURL = URL.createObjectURL(thumbBlob);
+  console.log(jpgURL);
 
   const videoDownload = document.createElement('a');
   preview.classList.remove('recording');
@@ -76,8 +88,23 @@ const handleDownload = async () => {
   videoDownload.href = mp4URL;
   videoDownload.download = 'MyRecording.mp4';
   document.body.appendChild(videoDownload);
-  videoDownload.innerHTML = 'ok';
+  //videoDownload.innerHTML = 'ok';
   videoDownload.click();
+
+  const thumbDownload = document.createElement('a');
+  thumbDownload.href = jpgURL;
+  thumbDownload.download = 'thumbnail.jpg';
+  document.body.appendChild(thumbDownload);
+  //thumbDownload.innerHTML = 'ok';
+  thumbDownload.click();
+
+  ffmpeg.FS('unlink', 'recording.webm');
+  ffmpeg.FS('unlink', 'output.mp4');
+  ffmpeg.FS('unlink', 'thumbnail.jpg');
+
+  URL.revokeObjectURL(mp4URL);
+  URL.revokeObjectURL(jpgURL);
+
   const tracks = stream.getTracks();
   console.log(tracks);
   tracks.forEach((track) => track.stop());
