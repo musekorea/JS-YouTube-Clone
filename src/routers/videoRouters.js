@@ -31,7 +31,10 @@ videoRouter.get('/upload', protectMiddleware, videoGetUploadController);
 videoRouter.post(
   '/upload',
   protectMiddleware,
-  videoUploadMiddleware.single('video'),
+  videoUploadMiddleware.fields([
+    { name: 'video', maxCount: 1 },
+    { name: 'thumb', maxCount: 1 },
+  ]),
   videoPostUploadController
 );
 videoRouter.get(

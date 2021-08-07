@@ -9,13 +9,14 @@ export const homeController = async (req, res) => {
     videoDB = await Video.find()
       .sort({ createdAt: 'descending' })
       .populate('owner');
-
+    console.log(videoDB);
     const keyword = req.query.keyword;
     if (keyword) {
       console.log(keyword);
       videoDB = await Video.find({
         title: { $regex: new RegExp(`${keyword}$`, 'i') },
       }).populate('owner');
+      console.log(videoDB);
       return res.render('search', { pageTitle: `Search`, videoDB });
     }
 
@@ -90,13 +91,17 @@ export const videoGetUploadController = (req, res) => {
 };
 export const videoPostUploadController = async (req, res) => {
   const ownerID = req.session.user._id;
-  const videoFile = req.file;
+  const videoFile = req.files.video;
+  const thumbFile = req.files.thumb;
+  console.log(thumbFile[0].path);
+  console.log(videoFile[0].path);
   const { title, description, hashTags } = req.body;
   try {
     const newVideo = await Video.create({
       title,
       description,
-      fileURL: videoFile.path,
+      videoURL: videoFile[0].path,
+      thumbURL: thumbFile[0].path,
       hashTags: Video.formatHashTags(hashTags),
       owner: ownerID,
     });

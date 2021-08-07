@@ -1,11 +1,12 @@
 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 
-const actionBtn = document.querySelector('.videoRecorderContainer');
+const recordContainer = document.querySelector('.videoRecorderContainer');
+const readySpan = document.querySelector('#readySpan');
+const startSpan = document.querySelector('#startSpan');
+const stopSpan = document.querySelector('#stopSpan');
+const finalSpan = document.querySelector('#finalSpan');
 const preview = document.querySelector('#preview');
-const readySpan = document.querySelector('#startBtn');
-const startSpan = document.querySelector('#recBtn');
-const stopSpan = document.querySelector('#stopBtn');
-const finalSpan = document.querySelector('#finalBtn');
+const recMessage = document.querySelector('#recMessage');
 
 let stream;
 let recorder;
@@ -13,48 +14,53 @@ let videoURL;
 
 const handleReady = async () => {
   preview.classList.remove('hide');
-  actionBtn.classList.add('active');
-  actionBtn.style.backgroundColor = `red`;
+  recordContainer.classList.add('active');
+  recordContainer.style.backgroundColor = `red`;
 
   stream = await navigator.mediaDevices.getUserMedia({
     audio: true,
-    video: { width: 350, height: 240 },
+    video: { width: 500, height: 250 },
   });
   if (stream) {
-    console.log(stream);
     readySpan.classList.add('hide');
     startSpan.classList.remove('hide');
-    actionBtn.removeEventListener('click', handleReady);
-    actionBtn.addEventListener('click', handleStartRecord);
+    recordContainer.removeEventListener('click', handleReady);
+    recordContainer.addEventListener('click', handleStartRecord);
     preview.srcObject = stream;
     preview.play();
   }
 };
 
 const handleStartRecord = () => {
-  console.log('start record');
   startSpan.classList.add('hide');
   stopSpan.classList.remove('hide');
-  actionBtn.style.backgroundColor = `green`;
-  actionBtn.classList.remove('active');
+  recordContainer.style.backgroundColor = `green`;
+  recordContainer.classList.remove('active');
   preview.classList.add('recording');
-  actionBtn.removeEventListener('click', handleStartRecord);
-  actionBtn.addEventListener('click', handleStopRecord);
+  recMessage.classList.remove('hide');
+
+  recordContainer.removeEventListener('click', handleStartRecord);
+  recordContainer.addEventListener('click', handleStopRecord);
   recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
   recorder.start();
 };
 
 const handleStopRecord = () => {
-  console.log('stop record');
-  stopSpan.classList.add('hide');
-  actionBtn.style.backgroundColor = `steelblue`;
-  actionBtn.removeEventListener('click', handleStopRecord);
+  preview.classList.remove('recording');
+  recMessage.innerHTML = `Please wait, it's processing now`;
+  recMessage.classList.add('active');
+  recMessage.style.color = `black`;
+  recordContainer.style.backgroundColor = `gray`;
+  stopSpan.innerHTML = `Please wait`;
+  recordContainer.removeEventListener('click', handleStopRecord);
   recorder.stop();
   recorder.ondataavailable = (e) => {
     videoURL = URL.createObjectURL(e.data);
     preview.srcObject = null;
     preview.src = videoURL;
     preview.loop = true;
+    preview.width = 500;
+    preview.height = 250;
     preview.play();
     handleDownload();
   };
@@ -94,8 +100,9 @@ const handleDownload = async () => {
   const thumbBlob = new Blob([thumbFile.buffer], { type: 'image/jpg' });
   const mp4URL = URL.createObjectURL(mp4Blob);
   const jpgURL = URL.createObjectURL(thumbBlob);
-
-  preview.classList.remove('recording');
+  recordContainer.style.backgroundColor = `steelblue`;
+  stopSpan.classList.add('hide');
+  recMessage.classList.add('hide');
   finalSpan.classList.remove('hide');
 
   downloadFile(mp4URL, 'myRecording.mp4');
@@ -109,9 +116,8 @@ const handleDownload = async () => {
   URL.revokeObjectURL(jpgURL);
 
   const tracks = stream.getTracks();
-  console.log(tracks);
   tracks.forEach((track) => track.stop());
   stream = null;
 };
 
-actionBtn.addEventListener('click', handleReady);
+recordContainer.addEventListener('click', handleReady);

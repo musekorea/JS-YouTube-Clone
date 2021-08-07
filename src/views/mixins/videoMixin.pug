@@ -2,6 +2,7 @@ mixin videoMixin(video)
   div(class="video-mixin")
     a(href=`/videos/${video.id}`)
       div(class="video-mixin__thumbnail")
+        img(class="thumbnail" src=`${video.thumbURL}`)
     div(class="video-mixin__info")
       a(href=`/videos/${video.id}`)=video.title
       div(class="video-mixin__meta")
