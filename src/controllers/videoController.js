@@ -12,14 +12,11 @@ export const homeController = async (req, res) => {
     console.log(videoDB);
     const keyword = req.query.keyword;
     if (keyword) {
-      console.log(keyword);
       videoDB = await Video.find({
         title: { $regex: new RegExp(`${keyword}$`, 'i') },
       }).populate('owner');
-      console.log(videoDB);
       return res.render('search', { pageTitle: `Search`, videoDB });
     }
-
     res.render('home.pug', { pageTitle, videoDB });
   } catch (error) {
     res.status(404).render('serverError', { error });
@@ -72,6 +69,7 @@ export const videoPostEditController = async (req, res) => {
   }
   const videoDB = await Video.findById(videoID);
   if (String(videoDB.owner) !== String(req.session.user._id)) {
+    req.flash('error', `You're not the owner of the video`);
     return res.status(403).redirect('/');
   }
 
@@ -108,7 +106,7 @@ export const videoPostUploadController = async (req, res) => {
     const user = await User.findById(ownerID).populate('videos');
     await user.videos.push(newVideo._id);
     await user.save();
-
+    req.flash('success', 'Upload OK');
     res.redirect('/');
   } catch (error) {
     const errorMessage = error._message;

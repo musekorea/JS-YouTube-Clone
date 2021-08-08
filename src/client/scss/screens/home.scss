@@ -1,0 +1,28 @@
+.flashMessage {
+  color: white;
+  font-size: 30px;
+  position: relative;
+  top: 90px;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 100px;
+  padding: 10px;
+  background-color: darkseagreen;
+  border: 1px solid black;
+  animation: flashDisappear 1s ease-in-out forwards;
+  animation-delay: 4s;
+}
+@keyframes flashDisappear {
+  from {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-500px);
+    opacity: 0;
+    display: none;
+    height: 0;
+    margin: 0;
+    padding: 0;
+  }
+}

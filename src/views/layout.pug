@@ -9,6 +9,13 @@ html(lang="en")
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
     script(defer src="/assets/js/main.js")
   body 
+    if messages.error 
+      h1(class="flashMessage")=messages.error
+    if messages.info
+      h1(class="flashMessage")=messages.info
+    if messages.success 
+      h1(class="flashMessage")=messages.success
+
     include partials/header.pug
     main
       block content 
