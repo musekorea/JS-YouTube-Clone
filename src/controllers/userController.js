@@ -117,6 +117,7 @@ export const finishGithubLoginController = async (req, res) => {
       return res.redirect('/login');
     }
     let user = await User.findOne({ email: emailObj.email });
+    console.log(user);
     if (!user) {
       user = await User.create({
         name: userJson.name,
@@ -132,6 +133,7 @@ export const finishGithubLoginController = async (req, res) => {
     req.session.user = user;
     return res.redirect('/');
   } else {
+    req.flash('error', 'Not found Git account ');
     return res.redirect('/login');
   }
 };
@@ -140,7 +142,7 @@ export const finishGithubLoginController = async (req, res) => {
 export const logoutController = (req, res) => {
   req.flash('info', 'Bye Bye');
   req.session.isLoggedIn = false;
-  //req.session.destroy();
+  //req.session.destroy(); //이거다시 봐야됨
   return res.redirect('/');
 };
 
@@ -232,7 +234,7 @@ export const getProfileController = async (req, res) => {
       model: 'User',
     },
   });
-  console.log(userData.videos[0].owner);
+
   if (!userData) {
     return res.status(404).render('404', { pageTItle: 'User not found.' });
   }

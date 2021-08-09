@@ -1,5 +1,4 @@
 .playerWrap {
-  margin-top: 50px;
   display: flex;
   position: relative;
   flex-direction: column;
@@ -48,4 +47,34 @@
 }
 .hide {
   display: none;
+}
+
+.player-description {
+  margin-top: 30px;
+  font-size: 20px;
+  text-align: start;
+  width: 50%;
+  .hashTags {
+    color: blue;
+  }
+  .player-description-topbox {
+    display: flex;
+    align-items: center;
+  }
+}
+.videoEditContainer {
+  display: flex;
+  width: 250px;
+  justify-content: space-between;
+  margin-left: 80px;
+  font-size: 15px;
+  .videoDetailBtn {
+    border: 1px solid red;
+    background-color: white;
+    color: red;
+    width: 90px;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+  }
 }

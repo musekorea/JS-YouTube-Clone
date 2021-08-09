@@ -10,11 +10,13 @@ export const homeController = async (req, res) => {
       .sort({ createdAt: 'descending' })
       .populate('owner');
     console.log(videoDB);
+
     const keyword = req.query.keyword;
     if (keyword) {
       videoDB = await Video.find({
         title: { $regex: new RegExp(`${keyword}$`, 'i') },
       }).populate('owner');
+
       return res.render('search', { pageTitle: `Search`, videoDB });
     }
     res.render('home.pug', { pageTitle, videoDB });
@@ -30,6 +32,7 @@ export const videoDetailController = async (req, res) => {
   const videoDB = await Video.findById(videoID.id).populate('owner');
 
   if (videoDB) {
+    console.log(videoDB);
     res.render('videoDetail', { pageTitle, videoDB });
   } else {
     res

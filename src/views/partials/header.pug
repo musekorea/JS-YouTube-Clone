@@ -17,8 +17,9 @@ header
         a(href=`/users/${loggedInUser._id}`) 👩‍💻 #{loggedInUser.name}
       else 
         a(href=`/users/${loggedInUser._id}` class="avatar-container" )
-          img(src=`/${loggedInUser.avatarURL}` class="header-avatar") 
+          img(src=`/${loggedInUser.avatarURL}` class="header-avatar" alt="avatar") 
           span   #{loggedInUser.name}
+      
       a(href="/users/logout" class="logoutBtn") LOGOUT <br> 
     else 
       div(class="headerButtonContainer")
