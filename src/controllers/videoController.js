@@ -9,7 +9,6 @@ export const homeController = async (req, res) => {
     videoDB = await Video.find()
       .sort({ createdAt: 'descending' })
       .populate('owner');
-    console.log(videoDB);
 
     const keyword = req.query.keyword;
     if (keyword) {
@@ -32,7 +31,6 @@ export const videoDetailController = async (req, res) => {
   const videoDB = await Video.findById(videoID.id).populate('owner');
 
   if (videoDB) {
-    console.log(videoDB);
     res.render('videoDetail', { pageTitle, videoDB });
   } else {
     res
@@ -145,4 +143,11 @@ export const videoViewsController = async (req, res) => {
   videoData.meta.views = videoData.meta.views + 1;
   await videoData.save();
   return res.status(200).end();
+};
+//==========COMMENT CONTROLLER===================//
+
+export const commentController = (req, res) => {
+  console.log(req.body);
+  console.log(req.params);
+  res.end();
 };

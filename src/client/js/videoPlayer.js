@@ -134,20 +134,13 @@ const handleMouseLeave = (e) => {
 
 const keyboardShortcut = (e) => {
   if (e.code === 'Space' && video.paused) {
+    e.preventDefault();
     play.className = `fas fa-pause`;
     video.play();
   } else if (e.code === 'Space' && !video.paused) {
+    e.preventDefault();
     video.pause();
     play.className = `fas fa-play`;
-  } else if (
-    (e.code === 'Enter' || e.code === 'NumpadEnter') &&
-    document.fullscreenElement === null
-  ) {
-    fullScreen.className = `fas fa-compress`;
-    playerWrap.requestFullscreen();
-  } else {
-    fullScreen.className = `fas fa-expand`;
-    document.exitFullscreen();
   }
 };
 

@@ -1,7 +1,7 @@
 extends layout.pug 
 
 block content
-  div(class="playerWrap")
+  div(class="playerWrap" data-video=videoDB)
     video(src=`/${videoDB.videoURL}`)
     div(class="player-controllers")
       <i id="playerPlayBtn" class="fas fa-play"></i>
@@ -30,6 +30,12 @@ block content
         img(src=`/${loggedInUser.avatarURL}` width="25px" height="25px" ) 
         span  #{videoDB.owner.name}
         p=videoDB.description
-
+    if isLoggedIn
+      div(class="commentContainer")
+        form(class="commentForm" id="commentForm")
+          textarea(placeholder="Write a nice comment",cols="30", rows="10")
+          button Add Comment
 block scripts 
   script(defer src="/assets/js/videoPlayer.js")
+  if isLoggedIn
+    script(defer src="/assets/js/comment.js")
