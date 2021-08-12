@@ -25,16 +25,22 @@ block content
           br
           a(class="videoDetailBtn" href=`${videoDB.id}/delete`) Delete Video 
     hr
-    div 
+    div(class="player-description-downbox")
       a(href=`/users/${videoDB.owner._id}`)
         img(src=`/${loggedInUser.avatarURL}` width="25px" height="25px" ) 
-        span  #{videoDB.owner.name}
-        p=videoDB.description
+      span  #{videoDB.owner.name}
+    hr
+    p=videoDB.description
     if isLoggedIn
       div(class="commentContainer")
         form(class="commentForm" id="commentForm")
           textarea(placeholder="Write a nice comment",cols="30", rows="10")
           button Add Comment
+    div(class="commentRendering")
+      ul 
+        each comment in videoDB.comments
+          li=comment.text
+      
 block scripts 
   script(defer src="/assets/js/videoPlayer.js")
   if isLoggedIn

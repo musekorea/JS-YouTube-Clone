@@ -1,5 +1,6 @@
 import Video from '../models/Video.js';
 import User from '../models/User.js';
+import Comment from '../models/Comment.js';
 
 //====================HOME=====================================
 export const homeController = async (req, res) => {
@@ -28,9 +29,16 @@ export const homeController = async (req, res) => {
 export const videoDetailController = async (req, res) => {
   const pageTitle = `Watching `;
   const videoID = req.params;
-  const videoDB = await Video.findById(videoID.id).populate('owner');
+  const videoDB = await Video.findById(videoID.id)
+    .populate('owner')
+    .populate({
+      path: 'comments',
+      options: { sort: { createdAt: 'descending' } },
+    });
 
+  console.log(videoDB);
   if (videoDB) {
+    console.log(videoDB);
     res.render('videoDetail', { pageTitle, videoDB });
   } else {
     res
@@ -146,8 +154,24 @@ export const videoViewsController = async (req, res) => {
 };
 //==========COMMENT CONTROLLER===================//
 
-export const commentController = (req, res) => {
-  console.log(req.body);
-  console.log(req.params);
-  res.end();
+export const commentController = async (req, res) => {
+  const commentText = req.body.text;
+  const videoID = req.params.id;
+  const userID = req.session.user._id;
+  const video = await Video.findById(videoID);
+
+  if (!video) {
+    return res.sendStatus(404);
+  }
+  const user = await User.findById(userID);
+  const comment = await Comment.create({
+    text: commentText,
+    owner: userID,
+    video: videoID,
+  });
+  video.comments.push(comment._id);
+  user.comments.push(comment._id);
+  await video.save();
+  await user.save();
+  return res.sendStatus(201);
 };

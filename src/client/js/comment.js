@@ -6,10 +6,15 @@ const handleSubmit = (e) => {
   const textarea = commentForm.querySelector('textarea');
   const text = textarea.value;
   const videoID = JSON.parse(playerWrap.dataset.video)._id;
+  if (text === '') {
+    return;
+  }
   fetch(`/api/videos/${videoID}/comment`, {
     method: 'POST',
-    body: { text },
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text }),
   });
+  textarea.value = '';
 };
 
 if (commentForm) {
