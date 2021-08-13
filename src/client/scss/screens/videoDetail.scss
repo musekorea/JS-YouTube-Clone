@@ -85,3 +85,57 @@
     text-align: center;
   }
 }
+.commentContainer {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  .commentForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    textarea {
+      line-height: 28px;
+      align-items: center;
+      width: 100%;
+      border: none;
+      font-size: 17px;
+      outline: none;
+      resize: none;
+      overflow: hidden;
+      background-color: white;
+    }
+    button {
+      width: 150px;
+      padding: 10px;
+      border: none;
+    }
+  }
+}
+.commentRendering {
+  background-color: wheat;
+  padding: 10px;
+  border-radius: 10px;
+  .commentUserInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    span {
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    small {
+      color: lightslategray;
+      font-size: 15px;
+    }
+    .comment {
+      margin-top: 5px;
+      list-style: none;
+    }
+  }
+}

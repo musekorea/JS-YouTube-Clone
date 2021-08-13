@@ -1,5 +1,5 @@
 form {
-  &:not(.search__form) {
+  &:not(.search__form, .commentForm) {
     display: flex;
     flex-direction: column;
     max-width: 420px;

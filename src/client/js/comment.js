@@ -20,3 +20,15 @@ const handleSubmit = (e) => {
 if (commentForm) {
   commentForm.addEventListener('submit', handleSubmit);
 }
+
+const textarea = document.querySelector('textarea');
+
+function handleTextareaHeight(e) {
+  if (textarea.scrollHeight === 36) {
+    return;
+  }
+  textarea.style.height = 'auto';
+  textarea.style.height = textarea.scrollHeight + 'px';
+}
+
+textarea.addEventListener('keyup', handleTextareaHeight);

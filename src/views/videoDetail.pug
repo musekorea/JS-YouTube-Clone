@@ -34,12 +34,18 @@ block content
     if isLoggedIn
       div(class="commentContainer")
         form(class="commentForm" id="commentForm")
-          textarea(placeholder="Write a nice comment",cols="30", rows="10")
+          textarea(placeholder="Write a nice comment" rows="1")
           button Add Comment
+          
     div(class="commentRendering")
-      ul 
-        each comment in videoDB.comments
-          li=comment.text
+      each comment in videoDB.comments
+        div(class="commentUserInfo")
+          img(src=`/${comment.avatarURL}`)
+          div
+            span=comment.username
+            small #{comment.createdAt.toISOString().substring(0,10)}
+            p(class="comment")=comment.text
+            
       
 block scripts 
   script(defer src="/assets/js/videoPlayer.js")

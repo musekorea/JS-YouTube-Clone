@@ -36,7 +36,7 @@ export const videoDetailController = async (req, res) => {
       options: { sort: { createdAt: 'descending' } },
     });
 
-  console.log(videoDB);
+  //console.log(videoDB);
   if (videoDB) {
     console.log(videoDB);
     res.render('videoDetail', { pageTitle, videoDB });
@@ -158,7 +158,9 @@ export const commentController = async (req, res) => {
   const commentText = req.body.text;
   const videoID = req.params.id;
   const userID = req.session.user._id;
-  const video = await Video.findById(videoID);
+  const video = await Video.findById(videoID).populate('owner');
+
+  console.log(video.owner.avatarURL);
 
   if (!video) {
     return res.sendStatus(404);
@@ -168,6 +170,8 @@ export const commentController = async (req, res) => {
     text: commentText,
     owner: userID,
     video: videoID,
+    avatarURL: video.owner.avatarURL,
+    username: video.owner.username,
   });
   video.comments.push(comment._id);
   user.comments.push(comment._id);
