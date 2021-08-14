@@ -36,9 +36,7 @@ export const videoDetailController = async (req, res) => {
       options: { sort: { createdAt: 'descending' } },
     });
 
-  //console.log(videoDB);
   if (videoDB) {
-    //console.log(videoDB);
     res.render('videoDetail', { pageTitle, videoDB });
   } else {
     res
@@ -68,7 +66,6 @@ export const videoGetEditController = async (req, res) => {
 };
 
 export const videoPostEditController = async (req, res) => {
-  console.log(req.body);
   const videoID = req.params.id;
   const videoExist = await Video.exists({ _id: videoID });
   if (!videoExist) {
@@ -96,12 +93,17 @@ export const videoGetUploadController = (req, res) => {
   const pageTitle = `Upload Video`;
   res.render('uploadVideo', { pageTitle });
 };
+
 export const videoPostUploadController = async (req, res) => {
   const ownerID = req.session.user._id;
   const videoFile = req.files.video;
   const thumbFile = req.files.thumb;
-  console.log(thumbFile[0].path);
-  console.log(videoFile[0].path);
+
+  if (!thumbFile) {
+    //업로드한 비디오의 첫 프레임을 thumbFile로 대체해야 할 것 같은데~
+    //videoFile은 Blob으로 어디 저장되어 있는거
+    //그걸 가져와서... 변환해야 겠네... 해보자. 일단~
+  }
   const { title, description, hashTags } = req.body;
   try {
     const newVideo = await Video.create({
@@ -134,7 +136,7 @@ export const videoDeleteController = async (req, res) => {
     return res.status(403).redirect('/');
   }
   const userDB = await User.findById(String(videoDB.owner));
-  console.log(userDB.videos);
+
   await userDB.videos.splice(userDB.videos.indexOf(`ObjectId(${videoID})`), 1);
   await userDB.save();
   await Video.findByIdAndDelete(videoID);
@@ -147,7 +149,7 @@ export const videoViewsController = async (req, res) => {
   if (!videoData) {
     return res.sendStatus(404);
   }
-  console.log(videoData);
+
   videoData.meta.views = videoData.meta.views + 1;
   await videoData.save();
   return res.status(200).end();
@@ -158,7 +160,7 @@ export const commentController = async (req, res) => {
   const commentText = req.body.text;
   const videoID = req.params.id;
   const userID = req.session.user._id;
-  console.log(userID);
+
   const video = await Video.findById(videoID).populate('owner');
   if (!video) {
     return res.sendStatus(404);
@@ -181,5 +183,24 @@ export const commentController = async (req, res) => {
 export const deleteCommentController = async (req, res) => {
   const commentID = req.params.id;
   const delComment = await Comment.findByIdAndDelete(commentID);
+  const user = await User.findById(delComment.owner);
+  const video = await Video.findById(delComment.video);
+  const userComments = user.comments.filter((comment) => {
+    return String(comment) !== String(commentID);
+  });
+  const videoComments = video.comments.filter((comment) => {
+    return String(comment) !== String(commentID);
+  });
+
+  user.comments = [];
+  video.comments = [];
+  userComments.forEach((comment) => {
+    user.comments.push(comment);
+  });
+  videoComments.forEach((comment) => {
+    video.comments.push(comment);
+  });
+  await user.save();
+  await video.save();
   return res.sendStatus(200);
 };
