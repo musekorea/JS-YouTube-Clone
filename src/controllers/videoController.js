@@ -38,7 +38,7 @@ export const videoDetailController = async (req, res) => {
 
   //console.log(videoDB);
   if (videoDB) {
-    console.log(videoDB);
+    //console.log(videoDB);
     res.render('videoDetail', { pageTitle, videoDB });
   } else {
     res
@@ -158,24 +158,28 @@ export const commentController = async (req, res) => {
   const commentText = req.body.text;
   const videoID = req.params.id;
   const userID = req.session.user._id;
+  console.log(userID);
   const video = await Video.findById(videoID).populate('owner');
-
-  console.log(video.owner.avatarURL);
-
   if (!video) {
     return res.sendStatus(404);
   }
   const user = await User.findById(userID);
   const comment = await Comment.create({
     text: commentText,
-    owner: userID,
+    owner: user._id,
     video: videoID,
-    avatarURL: video.owner.avatarURL,
-    username: video.owner.username,
+    avatarURL: user.avatarURL,
+    username: user.name,
   });
   video.comments.push(comment._id);
   user.comments.push(comment._id);
   await video.save();
   await user.save();
-  return res.sendStatus(201);
+  return res.status(201).json(comment);
+};
+//======DELETE COMMENT==================
+export const deleteCommentController = async (req, res) => {
+  const commentID = req.params.id;
+  const delComment = await Comment.findByIdAndDelete(commentID);
+  return res.sendStatus(200);
 };

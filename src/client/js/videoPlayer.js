@@ -132,7 +132,7 @@ const handleMouseLeave = (e) => {
   }
 };
 
-const keyboardShortcut = (e) => {
+/* const keyboardShortcut = (e) => {
   if (e.code === 'Space' && video.paused) {
     e.preventDefault();
     play.className = `fas fa-pause`;
@@ -142,7 +142,8 @@ const keyboardShortcut = (e) => {
     video.pause();
     play.className = `fas fa-play`;
   }
-};
+  댓글 입력하는 거랑 충돌 남! 수정필요 
+}; */
 
 const handleClickPlay = () => {
   if (video.paused) {
@@ -163,5 +164,6 @@ timeLine.addEventListener('input', handleTimeLine);
 fullScreen.addEventListener('click', handleFullScreen);
 playerWrap.addEventListener('mousemove', handleMouseMove);
 playerWrap.addEventListener('mouseleave', handleMouseLeave);
-document.addEventListener('keydown', keyboardShortcut);
+//document.addEventListener('keydown', keyboardShortcut);
+//댓글 입력하는 거랑 충돌남
 video.addEventListener('click', handleClickPlay);

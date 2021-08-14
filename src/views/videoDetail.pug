@@ -1,7 +1,7 @@
 extends layout.pug 
 
 block content
-  div(class="playerWrap" data-video=videoDB)
+  div(class="playerWrap" data-videoID=videoDB._id)
     video(src=`/${videoDB.videoURL}`)
     div(class="player-controllers")
       <i id="playerPlayBtn" class="fas fa-play"></i>
@@ -39,12 +39,15 @@ block content
           
     div(class="commentRendering")
       each comment in videoDB.comments
-        div(class="commentUserInfo")
+        div(class="commentUserInfo" data-commentID=comment._id)
           img(src=`/${comment.avatarURL}`)
           div
             span=comment.username
             small #{comment.createdAt.toISOString().substring(0,10)}
+            if String(loggedInUser._id)===String(comment.owner)
+              button(id="delBtn" class="delBtn") delete
             p(class="comment")=comment.text
+              
             
       
 block scripts 
