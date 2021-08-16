@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --ignore webpack.config.js --ignore src/client/* --ignore assets/* --exec babel-node src/init.js",
-    "build": "webpack "
+    "start": "node build/init.js",
+    "build": "npm run build:server && npm run build:assets",
+    "dev:server": "nodemon --ignore webpack.config.js --ignore src/client/* --ignore assets/* --exec babel-node src/init.js",
+    "dev:assets": "webpack --mode=development -w",
+    "build:server": "babel src -d build --ignore src/client/* ",
+    "build:assets": "webpack --mode=production"
   },
   "repository": {
     "type": "git",
@@ -34,7 +38,8 @@
     "regenerator-runtime": "^0.13.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.3",
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
     "@babel/node": "^7.14.2",
     "@babel/preset-env": "^7.14.2",
     "babel-loader": "^8.2.2",
