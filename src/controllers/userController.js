@@ -70,18 +70,17 @@ export const loginPostController = async (req, res) => {
 export const startGithubLoginController = (req, res) => {
   const baseURL = `https://github.com/login/oauth/authorize`;
   const config = {
-    client_id: '6a927958e6957f67a3a3',
+    client_id: process.env.GH_CLIENT,
     allow_signup: true,
     scope: `read:user user:email`,
   };
   const params = new URLSearchParams(config).toString();
   const finalURL = `${baseURL}?${params}`;
-  console.log(finalURL);
   res.redirect(finalURL);
 };
 export const finishGithubLoginController = async (req, res) => {
   const config = {
-    client_id: '6a927958e6957f67a3a3',
+    client_id: process.env.GH_CLIENT,
     client_secret: process.env.GithubSecret,
     code: req.query.code,
   };
@@ -103,7 +102,6 @@ export const finishGithubLoginController = async (req, res) => {
       },
     });
     const userJson = await userRequest.json();
-    console.log(userJson);
     const emailRequest = await fetch(`https://api.github.com/user/emails`, {
       headers: {
         Authorization: `token ${access_token}`,
@@ -117,7 +115,6 @@ export const finishGithubLoginController = async (req, res) => {
       return res.redirect('/login');
     }
     let user = await User.findOne({ email: emailObj.email });
-    console.log(user);
     if (!user) {
       user = await User.create({
         name: userJson.name,
