@@ -6,7 +6,7 @@ import './models/User.js';
 import './models/Comment.js';
 import app from './server';
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const handleListening = () => {
   console.log(`Server is listening on Port ${PORT}👵`);
 };
