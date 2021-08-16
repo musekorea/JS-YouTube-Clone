@@ -17,12 +17,13 @@ header
         a(href=`/users/${loggedInUser._id}`) 👩‍💻 #{loggedInUser.name}
       else if loggedInUser.socialOnly
         a(href=`users/${loggedInUser._id}` class="avatar-container" )
-          img(src=loggedInUser.avatarURL class="header-avatar" alt="avatar") 
+          img(class="header-avatar" src=loggedInUser.avatarURL ) 
           span   #{loggedInUser.name}
       else 
         a(href=`/users/${loggedInUser._id}` class="avatar-container" )
-            img(src=`/${loggedInUser.avatarURL}` class="header-avatar" alt="avatar") 
+            img(class="header-avatar" src=`/${loggedInUser.avatarURL}` alt="avatar") 
             span   #{loggedInUser.name}
+            
       a(href="/users/logout" class="logoutBtn") LOGOUT <br> 
     else 
       div(class="headerButtonContainer")
