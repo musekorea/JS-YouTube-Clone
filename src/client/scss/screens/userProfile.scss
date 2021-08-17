@@ -2,13 +2,6 @@
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-
-  .avatar {
-    width: 150px;
-    height: 150px;
-    margin-bottom: 20px;
-    border-radius: 50%;
-  }
 }
 .profile-nav {
   display: flex;
@@ -34,4 +27,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.avatar {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 20px;
+  border-radius: 50%;
 }

@@ -5,7 +5,13 @@ block content
 
   div(class="userProfile-container")
     div(class="profile-nav")
-      img(class="avatar" src=`/${loggedInUser.avatarURL}`)
+      if loggedInUser.avatarURL===undefined 
+        img(class="avatar" alt="No Image")
+      else if loggedInUser.socialOnly 
+        img(class="avatar" src=loggedInUser.avatarURL crossorigin="anonymous") 
+      else 
+        img(class="avatar" src=`/${loggedInUser.avatarURL}` alt="avatar") 
+      
       div(class="uploadedVideos")
         p(class="userProfileName") #{userData.name} 
         hr
