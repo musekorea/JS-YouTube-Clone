@@ -2,7 +2,14 @@ extends layout.pug
 
 block content 
   form(method="post" enctype="multipart/form-data" class="avatarForm")
-    img(src=`/${loggedInUser.avatarURL}` style="width:100px; height:100px")
+    if loggedInUser.avatarURL===undefined 
+      img(alt="No Image" style="width:100px; height:100px")
+    else if loggedInUser.socialOnly 
+      img(class="header-avatar" src=loggedInUser.avatarURL crossorigin="anonymous" style="width:100px; height:100px") 
+    else 
+      img(class="header-avatar" src=`/${loggedInUser.avatarURL}` alt="avatar" style="width:100px; height:100px") 
+            span   #{loggedInUser.name}
+    
     label(for="avatar") Avatar
     input(type="file" name="avatar" id="avatar" accept="image/*" )
     input(placeholder="Name" name="name" type="text" value=`${loggedInUser.name}`) 
