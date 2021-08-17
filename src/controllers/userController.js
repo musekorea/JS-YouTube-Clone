@@ -236,7 +236,7 @@ export const getProfileController = async (req, res) => {
     return res.status(404).render('404', { pageTItle: 'User not found.' });
   }
 
-  res.render(`user/userProfile`, {
+  res.render(`/user/userProfile`, {
     pageTitle: `${userData.name}'s Profile`,
     userData,
   });
