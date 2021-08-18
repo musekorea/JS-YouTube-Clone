@@ -5,7 +5,7 @@ block content
     if loggedInUser.avatarURL===undefined 
       img(class="avatar" alt="No Image" style="width:100px; height:100px")
     else if loggedInUser.socialOnly 
-      img(class="avatar" src=loggedInUser.avatarURL crossorigin="anonymous" style="width:100px; height:100px") 
+      img(class="avatar" src=loggedInUser.avatarURL style="width:100px; height:100px") 
     else 
       img(class="avatar" src=`/${loggedInUser.avatarURL}` alt="avatar" style="width:100px; height:100px") 
       span   #{loggedInUser.name}

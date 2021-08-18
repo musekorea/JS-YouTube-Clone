@@ -109,8 +109,8 @@ export const videoPostUploadController = async (req, res) => {
     const newVideo = await Video.create({
       title,
       description,
-      videoURL: videoFile[0].path,
-      thumbURL: thumbFile[0].path,
+      videoURL: videoFile[0].location,
+      thumbURL: thumbFile[0].location,
       hashTags: Video.formatHashTags(hashTags),
       owner: ownerID,
     });

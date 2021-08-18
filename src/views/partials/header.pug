@@ -18,7 +18,7 @@ header
         a(href=`/users/${loggedInUser._id}`) 👩‍💻 #{loggedInUser.name}
       else if loggedInUser.socialOnly
         a(href=`/users/${loggedInUser._id}` class="avatar-container" )
-          img(class="header-avatar" src=loggedInUser.avatarURL crossorigin="anonymous") 
+          img(class="header-avatar" src=loggedInUser.avatarURL ) 
           span   #{loggedInUser.name}
       else 
         a(href=`/users/${loggedInUser._id}` class="avatar-container" )
