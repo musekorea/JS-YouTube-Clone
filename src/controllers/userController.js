@@ -1,5 +1,6 @@
 import User from '../models/User.js';
 import Video from '../models/Video.js';
+import Comment from '../models/Comment.js';
 import bcrypt from 'bcrypt';
 import fetch from 'node-fetch';
 
@@ -172,7 +173,7 @@ export const postEditProfileController = async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(
     id,
     {
-      avatarURL: req.file ? req.file.path : currentUser.avatarURL,
+      avatarURL: req.file ? req.file.location : currentUser.avatarURL,
       name,
       email,
       username,
@@ -180,6 +181,15 @@ export const postEditProfileController = async (req, res) => {
     },
     { new: true }
   );
+  if (req.file) {
+    let comments = await Comment.find({ owner: id });
+    comments.forEach((comment) => {
+      comment.avatarURL = req.file.location;
+      console.log(comments);
+      comment.save();
+    });
+  }
+
   req.session.user = updatedUser;
   req.session.Message = 'Successfully Updated 🐱‍👤';
   res.redirect('/users/edit');

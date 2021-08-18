@@ -12,7 +12,7 @@ const addRealtimeComment = (res) => {
   commentUserInfo.className = `commentUserInfo`;
   commentUserInfo.dataset.commentid = commentID;
   const img = document.createElement('img');
-  img.src = `/${res.avatarURL}`;
+  img.src = `${res.avatarURL}`;
   commentUserInfo.appendChild(img);
   const div = document.createElement('div');
   commentUserInfo.appendChild(div);

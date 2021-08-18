@@ -2,7 +2,7 @@ extends layout.pug
 
 block content
   div(class="playerWrap" data-videoID=videoDB._id)
-    video(src=`/${videoDB.videoURL}`)
+    video(src=`${videoDB.videoURL}`)
     div(class="player-controllers")
       <i id="playerPlayBtn" class="fas fa-play"></i>
       div(class="player-timer")
@@ -27,7 +27,7 @@ block content
     hr
     div(class="player-description-downbox")
       a(href=`/users/${videoDB.owner._id}`)
-        img(src=`/${loggedInUser.avatarURL}` width="25px" height="25px" ) 
+        img(src=`${loggedInUser.avatarURL}` width="25px" height="25px" ) 
       span  #{videoDB.owner.name}
     hr
     p=videoDB.description
@@ -40,7 +40,7 @@ block content
     div(class="commentRendering")
       each comment in videoDB.comments
         div(class="commentUserInfo" data-commentID=comment._id)
-          img(src=`/${comment.avatarURL}`)
+          img(src=`${comment.avatarURL}`)
           div
             span=comment.username
             small #{comment.createdAt.toISOString().substring(0,10)}

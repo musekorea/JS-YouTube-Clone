@@ -8,7 +8,7 @@ block content
       if loggedInUser.avatarURL===undefined 
         img(class="avatar" alt="No Image")
       else if loggedInUser.socialOnly 
-        img(class="avatar" src=loggedInUser.avatarURL crossorigin="anonymous") 
+        img(class="avatar" src=loggedInUser.avatarURL) 
       else 
         img(class="avatar" src=`/${loggedInUser.avatarURL}` alt="avatar") 
       
