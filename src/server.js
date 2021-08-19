@@ -9,10 +9,12 @@ import { localsMiddleware, protectMiddleware } from './middlewares';
 import MongoStore from 'connect-mongo';
 import flash from 'express-flash';
 import cors from 'cors';
+import helmet from 'helmet';
 
 const app = express();
-app.use(morgan('dev'));
+//app.use(helmet());
 app.use(cors());
+app.use(morgan('dev'));
 app.set('view engine', 'pug');
 app.set('views', process.cwd() + '/src/views');
 app.use(express.json());
@@ -29,11 +31,7 @@ app.use(
     }),
   })
 );
-/* app.use((req, res, next) => {
-  res.header('Cross-Origin-Embedder-Policy', 'require-corp');
-  res.header('Cross-Origin-Opener-Policy', 'same-origin');
-  next();
-}); */
+
 app.use(flash());
 app.use(localsMiddleware);
 app.use('/uploads', express.static('uploads'));
