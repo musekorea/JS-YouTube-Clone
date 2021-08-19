@@ -185,7 +185,6 @@ export const postEditProfileController = async (req, res) => {
     let comments = await Comment.find({ owner: id });
     comments.forEach((comment) => {
       comment.avatarURL = req.file.location;
-      console.log(comments);
       comment.save();
     });
   }

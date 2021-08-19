@@ -7,7 +7,11 @@ import {
   videoPostUploadController,
   videoDeleteController,
 } from '../controllers/videoController';
-import { protectMiddleware, videoUploadMiddleware } from '../middlewares';
+import {
+  protectMiddleware,
+  videoUploadMiddleware,
+  s3DeleteVideoMiddleware,
+} from '../middlewares';
 
 const videoRouter = express.Router();
 
@@ -40,6 +44,7 @@ videoRouter.post(
 videoRouter.get(
   '/:id([0-9a-f]{24})/delete',
   protectMiddleware,
+  s3DeleteVideoMiddleware,
   videoDeleteController
 );
 
