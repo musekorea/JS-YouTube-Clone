@@ -13,6 +13,7 @@ import {
   protectMiddleware,
   publicOnlyMiddleware,
   avatarUploadMiddleware,
+  s3DeleteAvatarMiddleware,
 } from '../middlewares.js';
 
 const userRouter = express.Router();
@@ -21,7 +22,11 @@ userRouter
   .route('/edit')
   .all(protectMiddleware)
   .get(getEditProfileController)
-  .post(avatarUploadMiddleware.single(`avatar`), postEditProfileController);
+  .post(
+    avatarUploadMiddleware.single(`avatar`),
+    s3DeleteAvatarMiddleware,
+    postEditProfileController
+  );
 userRouter.get('/logout', protectMiddleware, logoutController);
 userRouter.get(
   '/github/start',

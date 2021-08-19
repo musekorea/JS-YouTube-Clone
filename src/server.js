@@ -8,16 +8,16 @@ import apiRouter from './routers/apiRouter';
 import { localsMiddleware, protectMiddleware } from './middlewares';
 import MongoStore from 'connect-mongo';
 import flash from 'express-flash';
+import cors from 'cors';
 
 const app = express();
-
+app.use(cors());
 app.use(morgan('dev'));
 app.set('view engine', 'pug');
 app.set('views', process.cwd() + '/src/views');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
-
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,
