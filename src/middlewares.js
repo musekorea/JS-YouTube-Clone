@@ -37,7 +37,7 @@ export const publicOnlyMiddleware = (req, res, next) => {
 };
 
 export const avatarUploadMiddleware = multer({
-  //dest: `uploads/avatars/`,
+  dest: `uploads/avatars/`,
   limits: { fileSize: 3145728 },
   storage: multerS3({
     s3: s3,
@@ -47,7 +47,7 @@ export const avatarUploadMiddleware = multer({
   acl: 'public-read',
 });
 export const videoUploadMiddleware = multer({
-  //dest: `uploads/videos/`,
+  dest: `uploads/videos/`,
   limits: { fileSize: 10485760 },
   storage: multerS3({
     s3: s3,
@@ -60,7 +60,6 @@ export const s3DeleteAvatarMiddleware = (req, res, next) => {
   if (!req.file) {
     return next();
   }
-  console.log(req.session.user.avatarURL.split('/')[4]);
   s3.deleteObject(
     {
       Bucket: `clonetubetest`,
@@ -80,7 +79,7 @@ export const s3DeleteVideoMiddleware = async (req, res, next) => {
   const videoDB = await Video.findById(req.params.id);
   const video = videoDB.videoURL.split('/')[4];
   const thumb = videoDB.thumbURL.split('/')[4];
-  console.log(video, thumb);
+
   const params = {
     Bucket: `clonetubetest`,
     Delete: {
