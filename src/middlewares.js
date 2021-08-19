@@ -57,7 +57,7 @@ export const videoUploadMiddleware = multer({
 });
 
 export const s3DeleteAvatarMiddleware = (req, res, next) => {
-  if (!req.file) {
+  if (!req.file || !req.session.user.avatarURL) {
     return next();
   }
   s3.deleteObject(
