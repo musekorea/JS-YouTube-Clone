@@ -10,7 +10,7 @@ block content
       else if loggedInUser.socialOnly 
         img(class="avatar" src=loggedInUser.avatarURL) 
       else 
-        img(class="avatar" src=`/${loggedInUser.avatarURL}` alt="avatar") 
+        img(class="avatar" src=`${loggedInUser.avatarURL}` alt="avatar") 
       
       div(class="uploadedVideos")
         p(class="userProfileName") #{userData.name} 
