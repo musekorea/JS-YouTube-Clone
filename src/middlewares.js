@@ -77,9 +77,12 @@ export const s3DeleteAvatarMiddleware = (req, res, next) => {
 
 export const s3DeleteVideoMiddleware = async (req, res, next) => {
   const videoDB = await Video.findById(req.params.id);
+  if (!videoDB) {
+    return next();
+  }
+
   const video = videoDB.videoURL.split('/')[4];
   const thumb = videoDB.thumbURL.split('/')[4];
-
   const params = {
     Bucket: `clonetubetest`,
     Delete: {
@@ -90,6 +93,5 @@ export const s3DeleteVideoMiddleware = async (req, res, next) => {
     if (err) console.log(err, err.stack);
     else console.log(`success`, data);
   });
-
   next();
 };
