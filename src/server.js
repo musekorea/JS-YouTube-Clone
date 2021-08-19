@@ -11,8 +11,8 @@ import flash from 'express-flash';
 import cors from 'cors';
 
 const app = express();
-app.use(morgan('dev'));
 app.use(cors());
+app.use(morgan('dev'));
 app.set('view engine', 'pug');
 app.set('views', process.cwd() + '/src/views');
 app.use(express.json());
