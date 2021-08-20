@@ -13,17 +13,7 @@ import helmet from 'helmet';
 
 const app = express();
 //app.use(helmet());
-app.use(
-  cors({
-    origin: `*`,
-    credentials: true,
-    optionsSuccessStatus: 200,
-  })
-);
-app.use((req, res, next) => {
-  res.header(`Cross-Origin-Resource-Policy`, `cross-origin`);
-  next();
-});
+app.use(cors());
 app.get(`/assets/js/recorder.js`, (req, res, next) => {
   console.log('ok');
   res.header('Cross-Origin-Embedder-Policy', 'require-corp');
