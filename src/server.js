@@ -14,7 +14,7 @@ import helmet from 'helmet';
 const app = express();
 //app.use(helmet());
 app.use(cors());
-app.get(`/assets/js/recorder.js`, (req, res, next) => {
+app.get(`/videos/upload`, (req, res, next) => {
   console.log('ok');
   res.header('Cross-Origin-Embedder-Policy', 'require-corp');
   res.header('Cross-Origin-Opener-Policy', 'same-origin');
