@@ -13,14 +13,13 @@ import helmet from 'helmet';
 
 const app = express();
 //app.use(helmet());
-app.use(cors());
 app.get(`/assets/js/recorder.js`, (req, res, next) => {
-  console.log('ok');
+  console.log('recorder on');
   res.header('Cross-Origin-Embedder-Policy', 'require-corp');
   res.header('Cross-Origin-Opener-Policy', 'same-origin');
   next();
 });
-
+app.use(cors());
 app.use(morgan('dev'));
 app.set('view engine', 'pug');
 app.set('views', process.cwd() + '/src/views');
