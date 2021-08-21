@@ -20,7 +20,7 @@ app.get(`/videos/upload`, (req, res, next) => {
   res.header('Cross-Origin-Opener-Policy', 'same-origin');
   next();
 });
-
+app.use(cors());
 app.use(morgan('dev'));
 app.set('view engine', 'pug');
 app.set('views', process.cwd() + '/src/views');
